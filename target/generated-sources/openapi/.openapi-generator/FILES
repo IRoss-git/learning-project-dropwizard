@@ -1,0 +1,9 @@
+.openapi-generator-ignore
+README.md
+pom.xml
+src/gen/java/com/learn/dropwizard/api/PersonsApi.java
+src/gen/java/com/learn/dropwizard/model/ApiError.java
+src/gen/java/com/learn/dropwizard/model/CreatePerson.java
+src/gen/java/com/learn/dropwizard/model/Person.java
+src/gen/java/com/learn/dropwizard/model/ReadPerson.java
+src/main/openapi/openapi.yaml
