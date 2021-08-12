@@ -1,9 +1,7 @@
 package com.ilya.dropwizard.service;
 
-import com.ilya.dropwizard.DAO.DepartmentDAO;
+import com.ilya.dropwizard.dao.DepartmentDAO;
 import com.ilya.dropwizard.domain.Department;
-import com.ilya.dropwizard.domain.Person;
-import com.ilya.dropwizard.exception.AlreadyExistException;
 import com.ilya.dropwizard.mapper.CreateDepartmentMapper;
 import com.ilya.dropwizard.mapper.ReadDepartmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;

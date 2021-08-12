@@ -1,7 +1,6 @@
-package com.ilya.dropwizard.RowMapper;
+package com.ilya.dropwizard.rowmapper;
 
 import com.ilya.dropwizard.domain.Department;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

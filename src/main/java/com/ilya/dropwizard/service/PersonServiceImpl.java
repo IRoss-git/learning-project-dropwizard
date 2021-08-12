@@ -1,7 +1,7 @@
 package com.ilya.dropwizard.service;
 
-import com.ilya.dropwizard.DAO.DepartmentDAO;
-import com.ilya.dropwizard.DAO.PersonDAO;
+import com.ilya.dropwizard.dao.DepartmentDAO;
+import com.ilya.dropwizard.dao.PersonDAO;
 import com.ilya.dropwizard.domain.Person;
 import com.ilya.dropwizard.exception.AlreadyExistException;
 import com.ilya.dropwizard.mapper.CreatePersonMapper;

@@ -1,4 +1,4 @@
-package com.ilya.dropwizard.RowMapper;
+package com.ilya.dropwizard.rowmapper;
 
 import com.ilya.dropwizard.domain.Person;
 import org.springframework.jdbc.core.RowMapper;

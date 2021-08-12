@@ -1,6 +1,6 @@
 package com.ilya.dropwizard;
 
-import com.ilya.dropwizard.DAO.DaoSpringConfiguration;
+import com.ilya.dropwizard.dao.DaoSpringConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

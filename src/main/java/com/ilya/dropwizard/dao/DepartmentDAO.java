@@ -1,6 +1,6 @@
-package com.ilya.dropwizard.DAO;
+package com.ilya.dropwizard.dao;
 
-import com.ilya.dropwizard.RowMapper.DepartmentRowMapper;
+import com.ilya.dropwizard.rowmapper.DepartmentRowMapper;
 import com.ilya.dropwizard.domain.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
