@@ -11,17 +11,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @PropertySource("classpath:application.properties")
 public class DaoSpringConfiguration {
 
-//    @Value("${db_url}") String url,
-//    @Value("${db_user}") String user,
-//    @Value("${db_password}") String password
+    @Value("${db.url}")
+    private String url;
+    @Value("${db.user}")
+    private String user;
+    @Value("${db.password}")
+    private String password;
 
     @Bean
     public BasicDataSource basicDataSource() {
         BasicDataSource basicDataSource = new BasicDataSource();
 
-        basicDataSource.setUrl("jdbc:postgresql://localhost:5432/test_db");
-        basicDataSource.setUsername("root");
-        basicDataSource.setPassword("123");
+        basicDataSource.setUrl(url);
+        basicDataSource.setUsername(user);
+        basicDataSource.setPassword(password);
         basicDataSource.setDriverClassName("org.postgresql.Driver");
 
         return basicDataSource;

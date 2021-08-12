@@ -3,12 +3,9 @@ package com.ilya.dropwizard.DAO;
 import com.ilya.dropwizard.RowMapper.PersonRowMapper;
 import com.ilya.dropwizard.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.IncorrectResultSetColumnCountException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
 import java.util.List;
 
 @Repository
@@ -17,73 +14,75 @@ public class PersonDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // driver manager vs datasource
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/test_db", "root", "123");
-    }
+    @Autowired
+    private PersonRowMapper personRowMapper;
 
     public void insertPerson(Person person) {
         String query = "INSERT INTO persons (email, password, name, surname) VALUES (?,?,?,?)";
-
         jdbcTemplate.update(query, person.getEmail(), person.getPassword(), person.getName(), person.getSurname());
     }
 
-    // row mapper result set -> entity
-
-    public Person getPersonById(int id) {
-        String query = "SELECT * FROM persons WHERE id = ?";
-        return jdbcTemplate.queryForObject(query, new PersonRowMapper(), id);
-    }
-
-    public void deletePersonById(int id) {
+    public void deletePersonById(Long id) {
         String query = "DELETE FROM persons WHERE id = ?";
-
         jdbcTemplate.update(query, id);
     }
 
-    // email
     public boolean isPersonExists(String email) {
         String query = "SELECT * FROM persons where email=?";
-        try {
-            jdbcTemplate.queryForObject(query, Integer.class, email);
-            return true;
-        }
-        catch (IncorrectResultSetColumnCountException e ) {
-            return true;
-        }
-        catch (EmptyResultDataAccessException e ){
-            return false;
-        }
+        List<Person> person = jdbcTemplate.query(query, new Object[]{email}, personRowMapper);
+
+        return person.isEmpty();
     }
 
-    public boolean isPersonExists(Integer id) {
+    public boolean isPersonExists(Long id) {
         String query = "SELECT * FROM persons where id=?";
-        try {
-            jdbcTemplate.queryForObject(query, Integer.class, id);
-            return true;
-        }
-        catch (IncorrectResultSetColumnCountException e ) {
-            return true;
-        }
-        catch (EmptyResultDataAccessException e ){
-            return false;
-        }
+        List<Person> person = jdbcTemplate.query(query, new Object[]{id}, personRowMapper);
+
+        return person.isEmpty();
     }
 
-    public List <Person> getAllPersons(int pageNumber, int pageSize){
+    public List<Person> getAllPersons(Long pageNumber, Long pageSize) {
         String query = "SELECT * FROM persons LIMIT ? OFFSET ?";
 
-        List<Person> personList = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 query,
-                new PersonRowMapper(), pageSize, pageSize * (pageNumber-1));
-
-        return personList;
+                personRowMapper, pageSize, pageSize * (pageNumber - 1));
     }
 
-    public void updatePerson(int id, Person person) {
-        String query = "UPDATE persons SET email=?, password=? WHERE id = ? ";
+    public Person getPersonById(Long id) {
+        String query1 = "SELECT * FROM persons WHERE id = ?";
+
+        return jdbcTemplate.queryForObject(query1, personRowMapper, id);
+    }
+
+    public List<Person> getAllPersonsByDepartment(Long departmentId, Long pageNumber, Long pageSize) {
+        String query = "SELECT * FROM persons JOIN person_department ON persons.id = person_department.person_id WHERE person_department.department_id = ? LIMIT ? OFFSET ?;";
+
+        return jdbcTemplate.query(
+                query,
+                personRowMapper, departmentId, pageSize, pageSize * (pageNumber - 1));
+    }
+
+    public Person getPersonByIdAndDepartmentId(Long departmentId, Long personId) {
+        String query = "SELECT * FROM persons JOIN person_department ON persons.id = person_department.person_id WHERE person_department.department_id = ? AND persons.id = ?;";
+        return jdbcTemplate.queryForObject(query, personRowMapper, departmentId, personId);
+    }
+
+    public void updatePerson(Long id, Person person) {
+        String query = "UPDATE persons SET email=?, password=?, name=?, surname=? WHERE id = ? ";
 
         jdbcTemplate.update(query, person.getEmail(),
-                person.getPassword(), id);
+                person.getPassword(), person.getName(), person.getSurname(), id);
+    }
+
+    public void deletePersonFromDepartmentById(Long departmentId, Long personId) {
+        String query = "DELETE FROM person_department WHERE person_department.department_id = ? AND person_department.person_id = ?";
+        jdbcTemplate.update(query, departmentId, personId);
+    }
+
+    public void createPersonInDepartment(Long departmentId, Long personId ){
+        String query = "INSERT INTO person_department VALUES (?,?)";
+        jdbcTemplate.update(query, departmentId, personId);
+
     }
 }

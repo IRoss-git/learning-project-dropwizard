@@ -14,6 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.version>5.2.5.RELEASE</spring.version>
+        <jib.container.appRoot>/app</jib.container.appRoot>
+        <dropwizard.server.config>config.yml</dropwizard.server.config>
     </properties>
 
     <dependencies>
@@ -21,6 +23,26 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
             <version>2.0.23</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-assets</artifactId>
+            <version>2.0.23</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bettercloud</groupId>
+            <artifactId>vault-java-driver</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jaxrs</artifactId>
+            <version>1.5.19</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -62,7 +84,6 @@
             <artifactId>commons-dbcp2</artifactId>
             <version>2.2.0</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
@@ -77,8 +98,9 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <inputSpec> ${project.basedir}/src/main/resources/openapi/openapi.yml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/apidocs/openapi.yaml</inputSpec>
                             <generatorName>jaxrs-spec</generatorName>
+                            <modelNameSuffix>DTO</modelNameSuffix>
                             <configOptions>
                                 <modelPackage>com.learn.dropwizard.model</modelPackage>
                                 <apiPackage>com.learn.dropwizard.api</apiPackage>
@@ -103,7 +125,12 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${project.build.directory}/generated-sources/openapi/src/gen/java/com/learn/dropwizard</source>
+                                <source>
+                                    ${project.build.directory}/generated-sources/openapi/src/gen/java/com/learn/dropwizard/api
+                                </source>
+                                <source>
+                                    ${project.build.directory}/generated-sources/openapi/src/gen/java/com/learn/dropwizard/model
+                                </source>
                             </sources>
                         </configuration>
                     </execution>
@@ -123,9 +150,9 @@
                         <configuration>
                             <changeLogFile>changelog/master.xml</changeLogFile>
                             <driver>org.postgresql.Driver</driver>
-                            <url>jdbc:postgresql://localhost:5432/test_db</url>
-                            <username>root</username>
-                            <password>123</password>
+                            <url>jdbc:postgresql://postgres:5433/postgres</url>
+                            <username>postgres</username>
+                            <password>password</password>
                             <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                         </configuration>
                         <executions>
@@ -134,6 +161,36 @@
                                 <goals>
                                     <goal>update</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>image.creation</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>3.1.1</version>
+                        <configuration>
+                            <container>
+                                <args>
+                                    <arg>server</arg>
+                                    <arg>${jib.container.appRoot}/resources/${dropwizard.server.config}</arg>
+                                </args>
+                            </container>
+                            <allowInsecureRegistries>true</allowInsecureRegistries>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>dockerBuild</id>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                                <phase>package</phase>
                             </execution>
                         </executions>
                     </plugin>

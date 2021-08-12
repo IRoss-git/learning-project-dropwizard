@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * E - Entity
  */
 
-public interface BaseMapper<D extends BaseDto, E extends BaseEntity> {
+public interface BaseMapper<D, E extends BaseEntity> {
 
     E convertToEntity(final D input);
 

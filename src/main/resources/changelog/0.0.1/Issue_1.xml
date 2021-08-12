@@ -4,8 +4,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
 
     <changeSet id="0.0.1" author="Ilya-Ross">
+
         <createTable tableName="persons">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false"
@@ -23,6 +25,118 @@
             <column name="SURNAME" type="VARCHAR(30)">
                 <constraints nullable="false"/>
             </column>
+            <column name="CREATE_DATE" defaultValueComputed="${now}" type="TIMESTAMP"/>
+            <column name="UPDATE_DATE" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="0.0.2" author="Ilya-Ross">
+        <createTable tableName="departments">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(50)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="LOCATION" type="VARCHAR(40)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="0.0.3" author="Ilya-Ross">
+        <createTable tableName="person_department">
+            <column name="DEPARTMENT_ID" type="BIGINT">
+                <constraints foreignKeyName="department_fk" references="DEPARTMENTS(id)" nullable="false"
+                             deleteCascade="true"/>
+            </column>
+            <column name="PERSON_ID" type="BIGINT">
+                <constraints foreignKeyName="person_fk" references="PERSONS(id)" nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="0.0.4" author="Ilya-Ross">
+        <addUniqueConstraint
+                columnNames="DEPARTMENT_ID, PERSON_ID"
+                constraintName="person_department_unique_constraint"
+                tableName="person_department"/>
+    </changeSet>
+
+    <changeSet id="0.0.5" author="Ilya-Ross">
+        <sql>
+            create table logged_actions
+            (
+                table_name    text                     not null,
+                user_name     text,
+                action_tstamp timestamp with time zone not null default current_timestamp,
+                action        TEXT                     NOT NULL check (action in ('I','D','U')),
+                original_data text,
+                 new_data text,
+                 query text
+            );
+
+            CREATE OR REPLACE FUNCTION if_modified_func() RETURNS trigger AS
+            '
+            DECLARE
+                v_old_data TEXT;
+                v_new_data TEXT;
+            BEGIN
+                if (TG_OP = ''UPDATE'') then
+                    v_old_data := ROW(OLD.*);
+                    v_new_data := ROW(NEW.*);
+                    insert into logged_actions (table_name, user_name, action, original_data, new_data, query)
+                    values (TG_TABLE_NAME::TEXT, session_user::TEXT, substring(TG_OP, 1, 1), v_old_data, v_new_data,current_query());
+                    RETURN NEW;
+                elsif (TG_OP = ''DELETE'') then
+                    v_old_data := ROW(OLD.*);
+                    insert into logged_actions (table_name, user_name, action, original_data, query)
+                    values (TG_TABLE_NAME::TEXT, session_user::TEXT, substring(TG_OP, 1, 1), v_old_data, current_query());
+                    RETURN OLD;
+                 elsif (TG_OP = ''INSERT'') then
+                     v_new_data := ROW(NEW.*);
+                     insert into logged_actions (table_name, user_name, action, new_data, query)
+                     values (TG_TABLE_NAME::TEXT, session_user::TEXT, substring(TG_OP, 1, 1), v_new_data, current_query());
+                        RETURN NEW;
+                else RAISE WARNING ''[IF_MODIFIED_FUNC] - Other action occurred: %, at %'',TG_OP,now();
+
+                    end if;
+            EXCEPTION
+                WHEN data_exception THEN
+                    RAISE WARNING ''[IF_MODIFIED_FUNC] - UDF ERROR [DATA EXCEPTION] - SQLSTATE: %, SQLERRM: %'',SQLSTATE,SQLERRM;
+                    RETURN NULL;
+                WHEN unique_violation THEN
+                    RAISE WARNING ''[IF_MODIFIED_FUNC] - UDF ERROR [UNIQUE] - SQLSTATE: %, SQLERRM: %'',SQLSTATE,SQLERRM;
+                    RETURN NULL;
+                WHEN others THEN
+                    RAISE WARNING ''[IF_MODIFIED_FUNC] - UDF ERROR [OTHER] - SQLSTATE: %, SQLERRM: %'',SQLSTATE,SQLERRM;
+                    RETURN NULL;
+                END;
+            '
+            LANGUAGE plpgsql;
+
+            CREATE TRIGGER persons_audit
+                AFTER INSERT OR
+            UPDATE OR
+            DELETE
+            ON persons
+                FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
+
+            CREATE TRIGGER department_audit
+                AFTER INSERT OR
+            UPDATE OR
+            DELETE
+            ON departments
+                FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
+
+            CREATE TRIGGER person_department_audit
+                AFTER INSERT OR
+            DELETE
+            ON person_department
+                FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
+
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

@@ -10,6 +10,7 @@ public class PersonModelMapper implements BaseMapper<PersonDto, Person> {
     public Person convertToEntity(PersonDto input) {
         Person person = new Person();
 
+        person.setId(input.getId());
         person.setName(input.getName());
         person.setSurname(input.getSurname());
         person.setEmail(input.getEmail());
@@ -22,6 +23,7 @@ public class PersonModelMapper implements BaseMapper<PersonDto, Person> {
     public PersonDto convertToDto(Person input) {
         PersonDto personDto = new PersonDto();
 
+        personDto.setId(input.getId());
         personDto.setName(input.getName());
         personDto.setSurname(input.getSurname());
         personDto.setEmail(input.getEmail());

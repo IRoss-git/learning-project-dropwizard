@@ -1,5 +1,6 @@
 package com.ilya.dropwizard.domain;
 
+import java.util.List;
 
 public class Person extends BaseEntity {
 
@@ -10,6 +11,16 @@ public class Person extends BaseEntity {
     private String name;
 
     private String surname;
+
+    private List <Department> departments;
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
 
     public Person() {
 
@@ -46,4 +57,5 @@ public class Person extends BaseEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

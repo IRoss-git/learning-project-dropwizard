@@ -1,18 +1,28 @@
 package com.ilya.dropwizard.service;
 
-import com.ilya.dropwizard.dto.PersonDto;
+import com.learn.dropwizard.model.ReadPersonDTO;
+import com.learn.dropwizard.model.ReadPersonsDTO;
+import com.learn.dropwizard.model.CreateUpdatePersonDTO;
 
 import java.util.List;
 
 public interface PersonService {
 
-    PersonDto createPerson(PersonDto personDto);
+    ReadPersonDTO createPerson(CreateUpdatePersonDTO personDto);
 
-    List<PersonDto> getAllPersons(int pageNumber, int pageSize);
+    List<ReadPersonsDTO> getAllPersons(Long pageNumber, Long pageSize);
 
-    void deletePerson(Integer id);
+    void deletePerson(Long id);
 
-    void updatePerson(Integer id, PersonDto personDto);
+    ReadPersonDTO updatePerson(Long id, CreateUpdatePersonDTO personDto);
 
-    PersonDto getPerson(Integer id);
+    ReadPersonDTO getPerson(Long id);
+
+    void addPersonToDepartment(Long departmentId, com.learn.dropwizard.model.AddPersonToDepartmentDTO addPersonToDepartmentDTO);
+
+    List <ReadPersonDTO> getAllPersonsByDepartment(Long departmentId, Long pageNumber, Long pageSize);
+
+    ReadPersonDTO getPersonByDepartmentIdAndId(Long departmentId, Long personId);
+
+    void deletePersonFromDepartment(Long departmentId, Long personId);
 }

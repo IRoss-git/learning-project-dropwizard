@@ -1,9 +1,11 @@
 package com.ilya.dropwizard;
 
-import com.ilya.dropwizard.configuration.BasicConfiguration;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ilya.dropwizard.exception.AlreadyExistExceptionMapper;
 import com.ilya.dropwizard.exception.NotFoundExceptionMapper;
+import com.ilya.dropwizard.service.kafka.KafkaConsumer;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -14,11 +16,13 @@ import java.util.Map;
 public class MainApplication extends Application<BasicConfiguration> {
 
     private BasicConfiguration configuration;
+
     private Environment environment;
+
     private AnnotationConfigWebApplicationContext context;
 
     public static void main(String[] args) throws Exception {
-        new MainApplication().run("server");
+        new MainApplication().run(args);
     }
 
     @Override
@@ -28,9 +32,16 @@ public class MainApplication extends Application<BasicConfiguration> {
 
         setUpSpringContext();
         registerResources();
+        startConsumers();
     }
 
-    private void setUpSpringContext(){
+    private void startConsumers() {
+        KafkaConsumer kafkaconsumer = context.getBean("kafkaconsumer", KafkaConsumer.class);
+        Thread thread = new Thread(kafkaconsumer);
+        thread.start();
+    }
+
+    private void setUpSpringContext() {
         AnnotationConfigWebApplicationContext parent = new AnnotationConfigWebApplicationContext();
         parent.refresh();
 
@@ -60,6 +71,7 @@ public class MainApplication extends Application<BasicConfiguration> {
 
     @Override
     public void initialize(Bootstrap<BasicConfiguration> bootstrap) {
-
+        bootstrap.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        bootstrap.addBundle(new AssetsBundle("/apidocs", "/apidocs", "index.html"));
     }
 }

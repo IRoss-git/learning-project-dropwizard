@@ -1,5 +1,8 @@
-database:
-  driverClass: org.postgresql.Driver
-  url: 'jdbc:postgresql://localhost:5432/db_test'
-  user: root
-  password: 123
+server:
+  applicationContextPath: /example
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081

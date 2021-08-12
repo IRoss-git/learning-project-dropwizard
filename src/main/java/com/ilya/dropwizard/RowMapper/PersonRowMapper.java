@@ -2,11 +2,12 @@ package com.ilya.dropwizard.RowMapper;
 
 import com.ilya.dropwizard.domain.Person;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-import javax.swing.tree.TreePath;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class PersonRowMapper implements RowMapper<Person> {
 
     @Override
