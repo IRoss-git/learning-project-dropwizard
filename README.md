@@ -3,9 +3,9 @@
 ---
 
 # Table of Contents
-###1. [General info](#general-info)
-###2. [Technologies](#technologies)
-###3. [Setup](#setup)
+### 1. [General info](#general-info)
+### 2. [Technologies](#technologies)
+### 3. [Setup](#setup)
 
 ---
 
