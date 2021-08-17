@@ -42,6 +42,15 @@ public class DepartmentServiceImpl implements DepartmentService{
         return readDepartmentMapper.convertListToDto(departmentDAO.getAllDepartments(pageNumber,pageSize));
     }
 
+    @Override
+    public List <Department> getAllDepartmentsByPerson(Long id){
+        return departmentDAO.getAllDepartmentByPerson(id);
+    }
+
+    @Override
+    public boolean isDepartmentExists(Long id) {
+        return departmentDAO.isDepartmentExists(id);
+    }
 
     @Override
     public void deleteDepartment(Long id) {

@@ -17,4 +17,8 @@ public interface DepartmentService {
     ReadDepartmentDTO updateDepartment(Long id, CreateUpdateDepartmentDTO createUpdateDepartmentDTO);
 
     ReadDepartmentDTO getDepartment(Long id);
+
+    List <Department> getAllDepartmentsByPerson(Long id);
+
+    boolean isDepartmentExists(Long id);
 }

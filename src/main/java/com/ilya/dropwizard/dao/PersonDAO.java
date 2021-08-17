@@ -27,14 +27,14 @@ public class PersonDAO {
         jdbcTemplate.update(query, id);
     }
 
-    public boolean isPersonExists(String email) {
+    public boolean isPersonExistsByEmail(String email) {
         String query = "SELECT * FROM persons where email=?";
         List<Person> person = jdbcTemplate.query(query, new Object[]{email}, personRowMapper);
 
         return person.isEmpty();
     }
 
-    public boolean isPersonExists(Long id) {
+    public boolean isPersonExistsById(Long id) {
         String query = "SELECT * FROM persons where id=?";
         List<Person> person = jdbcTemplate.query(query, new Object[]{id}, personRowMapper);
 
@@ -80,7 +80,7 @@ public class PersonDAO {
         jdbcTemplate.update(query, departmentId, personId);
     }
 
-    public void createPersonInDepartment(Long departmentId, Long personId ){
+    public void createPersonInDepartment(Long departmentId, Long personId) {
         String query = "INSERT INTO person_department VALUES (?,?)";
         jdbcTemplate.update(query, departmentId, personId);
 

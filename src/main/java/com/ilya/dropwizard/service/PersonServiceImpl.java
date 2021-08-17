@@ -33,14 +33,14 @@ public class PersonServiceImpl implements PersonService {
     private PersonDAO personDAO;
 
     @Autowired
-    private DepartmentDAO departmentDAO;
+    private DepartmentService departmentService;
 
     private final String NOT_FOUND = "%s with id %d not found";
 
     @Override
     public ReadPersonDTO createPerson(CreateUpdatePersonDTO personDto) {
         Person person = createPersonMapper.convertToEntity(personDto);
-        if (!personDAO.isPersonExists(person.getEmail())) {
+        if (!personDAO.isPersonExistsByEmail(person.getEmail())) {
             throw new AlreadyExistException("Person with email:" + person.getEmail() + " already exists");
         }
 
@@ -55,23 +55,22 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void deletePerson(Long id) {
-        if (personDAO.isPersonExists(id)) {
+        if (personDAO.isPersonExistsById(id)) {
             throw new NotFoundException(String.format(NOT_FOUND,"Person",id));
         }
-
         personDAO.deletePersonById(id);
     }
 
 
     @Override
     public ReadPersonDTO updatePerson(Long id, CreateUpdatePersonDTO personDto) {
-        if (personDAO.isPersonExists(id)) {
+        if (personDAO.isPersonExistsById(id)) {
             throw new NotFoundException(String.format(NOT_FOUND,"Person",id));
         }
 
         Person person = createPersonMapper.convertToEntity(personDto);
 
-        if(!personDAO.isPersonExists(personDto.getEmail())){
+        if(!personDAO.isPersonExistsByEmail(personDto.getEmail())){
             throw new AlreadyExistException("Email: "+personDto.getEmail()+ " already exists");
         }
 
@@ -82,12 +81,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public ReadPersonDTO getPerson(Long id) {
-        if (personDAO.isPersonExists(id)) {
+        if (personDAO.isPersonExistsById(id)) {
             throw new NotFoundException(String.format(NOT_FOUND,"Person",id));
         }
 
         Person person = personDAO.getPersonById(id);
-        person.setDepartments(departmentDAO.getAllDepartmentByPerson(id));
+        person.setDepartments(departmentService.getAllDepartmentsByPerson(id));
 
         return readPersonMapper.convertToDto(person);
     }
@@ -120,10 +119,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private void checkPersonAndDepartmentExistence(Long departmentId, Long personId){
-        if(personDAO.isPersonExists(personId)){
+        if(personDAO.isPersonExistsById(personId)){
             throw new NotFoundException(String.format(NOT_FOUND,"Person",personId));
         }
-        if(departmentDAO.isDepartmentExists(departmentId)){
+        if(departmentService.isDepartmentExists(departmentId)){
             throw new NotFoundException(String.format(NOT_FOUND,"Department",departmentId));
         }
     }
