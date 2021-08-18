@@ -3,9 +3,10 @@
 ---
 
 # Table of Contents
-### 1. [General info](#general-info)
-### 2. [Technologies](#technologies)
-### 3. [Setup](#setup)
+###  [General info](#general-info)
+###  [Technologies](#technologies)
+###  [Setup](#setup)
+###  [Usage](#usage)
 
 ---
 
@@ -64,14 +65,21 @@
 
 #### Run with docker
 
-- use mvn clean install -Pimage.creation to create image of application
-- use docker-compose -f docker/docker-compose.yml up
+- use `mvn clean install -Pimage.creation` to create image of application
+- use `docker-compose -f docker/docker-compose.yml up`
 
 #### Run with maven and Intellij IDEA
 
-- use mvn clean install -Pliquibase.migration in the root directory to run database migrations
-- set up your credentials of database in application.properties
-- run zookeeper.server .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
-- run kafka.server .\bin\windows\kafka-server-start.bat .\config\server.properties
-- create topic sh kafka-topics.sh --create --bootstrap-server localhost:9092 --topic person2
+- use `mvn clean install -Pliquibase.migration` in the root directory to run database migrations
+- set up your credentials of database in `application.properties`
+- run zookeeper.server `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`
+- run kafka.server `.\bin\windows\kafka-server-start.bat .\config\server.properties`
+- create topic `sh kafka-topics.sh --create --bootstrap-server localhost:9092 --topic person2`
 - run application with IDEA
+
+---
+
+## Usage
+
+### After successful run, you can open
+### `localhost:8080/example/apidocs`
