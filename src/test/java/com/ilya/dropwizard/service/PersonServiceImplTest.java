@@ -78,7 +78,8 @@ class PersonServiceImplTest {
     public void alternativeGetTest() {
         Person person1 = mock(Person.class);
         ReadPersonDTO mockDto = mock(ReadPersonDTO.class);
-        List<Department> departmentList = mock(List.class);
+        List<Department> departmentList = new ArrayList<>();
+
 
         when(personDAO.getPersonById(1L)).thenReturn(person1);
         when(readPersonMapper.convertToDto(person1)).thenReturn(mockDto);
@@ -95,10 +96,10 @@ class PersonServiceImplTest {
         ReadPersonDTO readPersonDTO = mock(ReadPersonDTO.class);
         Person person = mock(Person.class);
 
-        doNothing().when(personDAO).insertPerson(isA(Person.class));
         when(readPersonMapper.convertToDto(person)).thenReturn(readPersonDTO);
         when(createPersonMapper.convertToEntity(createUpdatePersonDTO)).thenReturn(person);
         when(personDAO.isPersonExistsByEmail(null)).thenReturn(true);
+
         ReadPersonDTO expected = personServiceImpl.createPerson(createUpdatePersonDTO);
 
         assertThat(expected).isSameAs(readPersonDTO);
@@ -124,7 +125,6 @@ class PersonServiceImplTest {
 
     @Test
     public void deletePersonTest() {
-        doNothing().when(personDAO).deletePersonById(isA(Long.class));
 
         personServiceImpl.deletePerson(1L);
 
@@ -136,7 +136,6 @@ class PersonServiceImplTest {
         CreateUpdatePersonDTO createUpdatePersonDTO = mock(CreateUpdatePersonDTO.class);
         Person person = mock(Person.class);
 
-        doNothing().when(personDAO).updatePerson(isA(Long.class), isA(Person.class));
         when(createPersonMapper.convertToEntity(createUpdatePersonDTO)).thenReturn(person);
         when(personDAO.isPersonExistsByEmail(null)).thenReturn(true);
 
@@ -149,7 +148,6 @@ class PersonServiceImplTest {
     public void addPersonToDepartmentTest() {
         AddPersonToDepartmentDTO addPersonToDepartmentDTO = mock(AddPersonToDepartmentDTO.class);
 
-        doNothing().when(personDAO).createPersonInDepartment(isA(Long.class), isA(Long.class));
         when(departmentService.isDepartmentExists(1L)).thenReturn(false);
         personServiceImpl.addPersonToDepartment(1L, addPersonToDepartmentDTO);
 
@@ -171,6 +169,7 @@ class PersonServiceImplTest {
         when(readPersonMapper.convertListToDto(personList)).thenReturn(list);
 
         List<ReadPersonDTO> expected = personServiceImpl.getAllPersonsByDepartment(1L, 1L, 3L);
+        assertEquals(1, expected.size());
         assertThat(expected).isSameAs(list);
     }
 
@@ -189,7 +188,6 @@ class PersonServiceImplTest {
 
     @Test
     public void deletePersonFromDepartment() {
-        doNothing().when(personDAO).deletePersonFromDepartmentById(isA(Long.class), isA(Long.class));
 
         personServiceImpl.deletePersonFromDepartment(1L, 1L);
 
