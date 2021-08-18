@@ -72,9 +72,10 @@
 
 - use `mvn clean install -Pliquibase.migration` in the root directory to run database migrations
 - set up your credentials of database in `application.properties`
-- run zookeeper.server `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`
-- run kafka.server `.\bin\windows\kafka-server-start.bat .\config\server.properties`
+- (kafka required) run zookeeper.server `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`
+- (kafka required) run kafka.server `.\bin\windows\kafka-server-start.bat .\config\server.properties`
 - create topic `sh kafka-topics.sh --create --bootstrap-server localhost:9092 --topic person2`
+- (optional) run vault server `vault server -config config.hcl`
 - run application with IDEA
 
 ---
