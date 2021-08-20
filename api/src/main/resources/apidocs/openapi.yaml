@@ -1,0 +1,686 @@
+openapi: 3.0.3
+
+info:
+  title: Dropwizard API learning Application
+  description: "Open api for dropwizard test project"
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: person
+    description: person controller
+
+paths:
+  /persons:
+    post:
+      tags:
+        - person
+      summary: Create new Persons
+      description: new Person
+      operationId: createPerson
+      requestBody:
+        description: A payload for creating a new Person
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdatePerson'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPerson'
+    get:
+      tags:
+        - person
+      summary: get all persons
+      description: all persons
+      operationId: getPersons
+      parameters:
+        - in: query
+          name: page_number
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
+            default: 5
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReadPersons"
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /persons/{id}:
+    get:
+      tags:
+        - person
+      summary: get person
+      description: get person by id
+      operationId: getPerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPerson'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - person
+      summary: update person
+      description: update person by id
+      operationId: updatePerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: A payload for update Person
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdatePerson'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPerson'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - person
+      summary: delete person
+      description: delete person by id
+      operationId: deletePerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /departments:
+    post:
+      tags:
+        - department
+      summary: Create new Department
+      description: newDepartment
+      operationId: createDepartment
+      requestBody:
+        description: A payload for creating a new Department
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateDepartment'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadDepartment'
+    get:
+      tags:
+        - department
+      summary: get all department
+      description: all department
+      operationId: getDepartments
+      parameters:
+        - in: query
+          name: page_number
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
+            default: 5
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReadDepartment"
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /departments/{id}:
+    get:
+      tags:
+        - department
+      summary: get department
+      description: get department by id
+      operationId: getDepartment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadDepartment'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - department
+      summary: update department
+      description: update department by id
+      operationId: updateDepartment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: A payload for update department
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateDepartment'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadDepartment'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - department
+      summary: delete department
+      description: delete department by id
+      operationId: deleteDepartment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /department/{department_id}/persons:
+    post:
+      tags:
+        - Person department
+      summary: Set person for department
+      description: The endpoint associating person with department
+      operationId: setPersonForDepartment
+      parameters:
+        - name: "department_id"
+          in: "path"
+          description: The ID of the Department
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        description: A payload for set department for person
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPersonToDepartment'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPerson'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      tags:
+        - Person department
+      summary: Get all Persons by Department
+      description: The endpoint retrieves the list of person associated with department
+      operationId: getAllPersonsByDepartment
+      parameters:
+        - name: "department_id"
+          in: "path"
+          description: The ID of the Department
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+        - in: query
+          name: page_number
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
+            default: 5
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReadPerson"
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /persons/content/:
+    post:
+      tags:
+        - Person content
+      summary: Create
+      description: The endpoint creates content
+      operationId: createContent
+      requestBody:
+        description: A payload for create new content
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContent'
+      responses:
+        201:
+          $ref: '#/components/schemas/CreateContent'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /persons/content/{key}:
+    get:
+      tags:
+        - Person content
+      summary: Get Content by key
+      description: The endpoint retrieves a content
+      operationId: getContent
+      parameters:
+        - name: "key"
+          in: "path"
+          description: The key of the content
+          required: true
+          schema:
+            type: string
+            example: somekey
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadContent'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+
+  /department/{department_id}/persons/{id}:
+    get:
+      tags:
+        - Person department
+      summary: Get Person by ID in specified department
+      description: The endpoint retrieves an existing person
+        associated with the specified department
+      operationId: getPersonByDepartment
+      parameters:
+        - name: "department_id"
+          in: "path"
+          description: The ID of the Department
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+        - name: "id"
+          in: "path"
+          description: The ID of the Person
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPerson'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Person department
+      summary: Delete house by ID
+      description: The endpoint deletes person from department
+      operationId: deletePersonFromDepartment
+      parameters:
+        - name: "department_id"
+          in: "path"
+          description: The ID of the Department
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+        - name: "id"
+          in: "path"
+          description: The ID of the Person
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Person:
+      required:
+        - email
+        - name
+        - surname
+      type: object
+      properties:
+        email:
+          type: string
+          example: "newemail@gmail.com"
+          minLength: 11
+          maxLength: 25
+        name:
+          type: string
+          example: Mike
+          minLength: 2
+          maxLength: 20
+        surname:
+          type: string
+          example: Anderson
+          minLength: 2
+          maxLength: 30
+    CreateUpdatePerson:
+      allOf:
+        - $ref: '#/components/schemas/Person'
+      required:
+        - password
+      type: object
+      properties:
+        password:
+          type: string
+          minLength: 11
+          maxLength: 22
+          example: "33password11"
+    ReadPerson:
+      allOf:
+        - $ref: '#/components/schemas/Person'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        departments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReadDepartment"
+    ReadPersons:
+      allOf:
+        - $ref: '#/components/schemas/Person'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+    Department:
+      required:
+        - name
+        - location
+      type: object
+      properties:
+        name:
+          type: string
+          example: Secutiry Department
+          minLength: 8
+          maxLength: 100
+        location:
+          type: string
+          example: Dnipro
+          minLength: 2
+          maxLength: 56
+    CreateUpdateDepartment:
+      allOf:
+        - $ref: '#/components/schemas/Department'
+      type: object
+
+    ReadDepartment:
+      allOf:
+        - $ref: '#/components/schemas/Department'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        persons:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReadPerson"
+    CreateContent:
+      type: object
+      properties:
+        key:
+          type: string
+          example: key
+        value:
+          type: string
+          example: Some secret content
+    ReadContent:
+      type: object
+      properties:
+        value:
+          type: string
+          example: Some content
+
+    AddPersonToDepartment:
+      type: object
+      properties:
+        person_id:
+          type: integer
+          format: int64
+          example: 1
+    ApiError:
+      type: object
+      properties:
+        response_code:
+          type: integer
+          example: 404
+        error_message:
+          type: string
+          example: "example"
+  responses:
+    NoContentResponse:
+      description: The request was succesfully processed.
+    BadRequest:
+      description: Validation Exception.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    Forbidden:
+      description: You do not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    Conflict:
+      description: Conflict with current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    InternalServerError:
+      description: Something went wrong.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+

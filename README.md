@@ -53,7 +53,7 @@
 ---
 
 ### Openapi Specification
-#### The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection.
+#### The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the com.ilya.service.service without access to source code, documentation, or through network traffic inspection.
 
 #### You can find OpenApi specification for the project [here](https://github.com/Ilya-Ross/learning-project-dropwizard/blob/master/src/main/resources/apidocs/openapi.yaml)
 
