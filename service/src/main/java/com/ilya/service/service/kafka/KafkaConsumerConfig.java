@@ -14,7 +14,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_
 import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG;
 
 @Component
-@PropertySource("classpath:vault.properties")
+@PropertySource("classpath:service.properties")
 public class KafkaConsumerConfig {
 
     private Properties properties;

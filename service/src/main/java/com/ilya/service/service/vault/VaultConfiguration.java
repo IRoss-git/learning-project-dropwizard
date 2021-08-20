@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:vault.properties")
+@PropertySource("classpath:service.properties")
 public class VaultConfiguration {
 
     @Value("${vault.address}")
