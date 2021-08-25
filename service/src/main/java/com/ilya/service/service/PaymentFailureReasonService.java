@@ -21,5 +21,7 @@ public interface PaymentFailureReasonService {
 
     ReadPaymentFailureReasonDTO getPaymentFailureReason(String paymentProcessorId, String id);
 
+    void deleteMapping(String genericReasonId, String reasonId);
+
     ReadPaymentFailureReasonDTO addFailureReasonToGenericGroup(String genericReasonId, RefPaymentFailureReasonDTO refPaymentFailureReasonDTO);
 }

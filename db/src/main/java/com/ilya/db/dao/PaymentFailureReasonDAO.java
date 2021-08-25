@@ -94,6 +94,10 @@ public class PaymentFailureReasonDAO {
     public void createReasonMapping(String genericReasonId, String reasonId) {
         String query = "INSERT INTO failure_reason_mapping VALUES (?,?)";
         jdbcTemplate.update(query, UUID.fromString(reasonId), UUID.fromString(genericReasonId));
+    }
 
+    public void deleteReasonMappingByGenericIdAndReasonId(String genericReasonId, String reasonId) {
+        String query = "DELETE FROM failure_reason_mapping WHERE failure_reason_mapping.payment_failure_reason_id = ? AND failure_reason_mapping.generic_failure_reason_id = ?";
+        jdbcTemplate.update(query, UUID.fromString(reasonId), UUID.fromString(genericReasonId));
     }
 }

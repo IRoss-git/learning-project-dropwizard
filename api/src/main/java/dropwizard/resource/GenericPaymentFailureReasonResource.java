@@ -30,6 +30,13 @@ public class GenericPaymentFailureReasonResource implements PaymentGenericFailur
     }
 
     @Override
+    public Response deleteMappingPaymentGenericFailureReason(String paymentGenericFailureReasonId, String id) {
+        paymentFailureReasonService.deleteMapping(paymentGenericFailureReasonId, id);
+
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @Override
     public Response deletePaymentGenericFailureReason(String id) {
         genericPaymentFailureReasonService.deleteGenericPaymentFailureReason(id);
 
@@ -38,7 +45,7 @@ public class GenericPaymentFailureReasonResource implements PaymentGenericFailur
 
     @Override
     public Response getAllPaymentFailureReasonByGenericReason(String paymentGenericFailureReasonId, Long pageNumber, Long pageSize) {
-        List <ReadPaymentFailureReasonDTO> readPaymentFailureReasonDTOS = paymentFailureReasonService.getAllPaymentFailureReasonsByGenericReason(paymentGenericFailureReasonId,pageNumber,pageSize);
+        List<ReadPaymentFailureReasonDTO> readPaymentFailureReasonDTOS = paymentFailureReasonService.getAllPaymentFailureReasonsByGenericReason(paymentGenericFailureReasonId, pageNumber, pageSize);
 
         return Response.status(Response.Status.OK).entity(readPaymentFailureReasonDTOS).build();
     }

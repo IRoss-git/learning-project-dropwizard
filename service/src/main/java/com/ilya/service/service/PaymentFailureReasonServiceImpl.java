@@ -120,25 +120,13 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         return readPaymentFailureReasonMapper.convertToDto(paymentFailureReasonDAO.getPaymentFailureReason(reasonId));
     }
 
-    //
-//    @Override
-//    public List<ReadPersonDTO> getAllPersonsByDepartment(Long departmentId, Long pageNumber, Long pageSize) {
-//        return readPersonMapper.convertListToDto(personDAO.getAllPersonsByDepartment(departmentId,pageNumber, pageSize));
-//    }
-//
-//    public ReadPersonDTO getPersonByDepartmentIdAndId(Long departmentId, Long personId){
-//        checkPersonAndDepartmentExistence(departmentId, personId);
-//
-//        return readPersonMapper.convertToDto(personDAO.getPersonByIdAndDepartmentId(departmentId,personId));
-//    }
-//
-//    @Override
-//    public void deletePersonFromDepartment(Long departmentId, Long personId) {
-//        checkPersonAndDepartmentExistence(departmentId, personId);
-//
-//        personDAO.deletePersonFromDepartmentById(departmentId,personId);
-//    }
-//
+    @Override
+    public void deleteMapping(String genericReasonId, String reasonId) {
+        checkGenericReasonAndReasonExistence(genericReasonId, reasonId);
+
+        paymentFailureReasonDAO.deleteReasonMappingByGenericIdAndReasonId(genericReasonId, reasonId);
+    }
+
     private void checkGenericReasonAndReasonExistence(String genericReasonId, String reasonId) {
         genericPaymentFailureReasonService.isGenericReasonExists(genericReasonId);
 

@@ -76,6 +76,22 @@ public class GenericFailureReasonMappingIT {
         assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
     }
 
+    @Test
+    public void deleteMappingTest() throws ApiException {
+        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
+
+        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
+        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
+
+        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
+        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
+        paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReason(readGenericPaymentFailureReason.getId(),refPaymentFailureReason);
+
+        ApiResponse<Void> response = paymentFailureReasonMappingWithGenericApi.deleteMappingPaymentGenericFailureReasonWithHttpInfo(readGenericPaymentFailureReason.getId(),refPaymentFailureReason.getReasonId());
+
+        assertThat(response.getStatusCode(), equalTo(Response.Status.NO_CONTENT.getStatusCode()));
+    }
+
     CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason() {
         return new CreateUpdateGenericPaymentFailureReason()
                 .code(RandomStringUtils.randomAlphabetic(10).concat("code"))

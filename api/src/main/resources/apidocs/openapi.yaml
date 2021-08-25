@@ -567,6 +567,35 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         default:
           $ref: '#/components/responses/InternalServerError'
+  /payment_generic_failure_reason/{payment_generic_failure_reason_id}/payment_failure_reason/{id}:
+    delete:
+      tags:
+        - Payment failure reason mapping with generic
+      summary: delete payment failure generic mapping
+      description: delete payment failure generic reason mapping by id
+      operationId: deleteMappingPaymentGenericFailureReason
+      parameters:
+        - name: payment_generic_failure_reason_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
   /persons/content/:
     post:
       tags:
