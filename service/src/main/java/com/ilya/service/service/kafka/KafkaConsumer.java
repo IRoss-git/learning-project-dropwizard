@@ -1,6 +1,7 @@
 package com.ilya.service.service.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ilya.service.service.PaymentProcessorService;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -9,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
+import com.learn.dropwizard.model.CreateUpdatePaymentProcessorDTO;
 import java.time.Duration;
 import java.util.Collections;
 
@@ -23,8 +24,8 @@ public class KafkaConsumer implements Runnable {
     @Autowired
     private KafkaConsumerConfig kafkaConsumerConfig;
 
-//    @Autowired
-//    private PersonService personService;
+    @Autowired
+    private PaymentProcessorService paymentProcessorService;
 
     @Value("${kafka.topic}")
     private String topic;
@@ -38,8 +39,8 @@ public class KafkaConsumer implements Runnable {
                 ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(Long.parseLong(kafkaConsumerConfig.getProperties().getProperty(MAX_POLL_INTERVAL_MS_CONFIG))));
                 for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
                     try {
-//                        CreateUpdatePersonDTO createUpdatePersonDTO = objectMapper.readValue(consumerRecord.value(), CreateUpdatePersonDTO.class);
-//                        personService.createPerson(createUpdatePersonDTO);
+                        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = objectMapper.readValue(consumerRecord.value(), CreateUpdatePaymentProcessorDTO.class);
+                        paymentProcessorService.createPaymentProcessor(createUpdatePaymentProcessorDTO);
 
                         LOGGER.info("Person {} successfully created", consumerRecord.value());
                     } catch (Exception e) {
