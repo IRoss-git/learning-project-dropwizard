@@ -65,8 +65,8 @@ public class PaymentProcessorIT {
 
         ApiResponse<List<ReadPaymentProcessor>> response = paymentProcessorApi.getPaymentProcessorsWithHttpInfo(1L, 10L);
 
-        assertThat(response.getData().size(), greaterThan(1));
-        assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
+            assertThat(response.getData().size(), greaterThan(1));
+            assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
     }
 
     @Test

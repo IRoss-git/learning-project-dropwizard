@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PaymentProcessorImpl implements PaymentProcessorService{
+public class PaymentProcessorServiceImpl implements PaymentProcessorService{
 
     @Autowired
     private PaymentProcessorDAO paymentProcessorDAO;
