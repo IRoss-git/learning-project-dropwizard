@@ -5,66 +5,90 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <property name="now" value="now()" dbms="postgresql"/>
-
     <changeSet id="0.0.1" author="Ilya-Ross">
-
-        <createTable tableName="persons">
-            <column name="ID" type="BIGINT" autoIncrement="true">
+        <createTable tableName="payment_processor">
+            <column name="ID" type="uuid">
                 <constraints nullable="false"
                              primaryKey="true"/>
             </column>
-            <column name="EMAIL" type="VARCHAR(40)">
-                <constraints nullable="false" unique="true"/>
+            <column name="KEY" type="VARCHAR(45)">
+                <constraints unique="true" nullable="false"/>
             </column>
-            <column name="PASSWORD" type="VARCHAR(30)">
-                <constraints nullable="false"/>
+            <column name="NAME" type="VARCHAR(45)">
+                <constraints nullable="false" unique="false"/>
             </column>
-            <column name="NAME" type="VARCHAR(20)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SURNAME" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="CREATE_DATE" defaultValueComputed="${now}" type="TIMESTAMP"/>
-            <column name="UPDATE_DATE" type="TIMESTAMP">
-                <constraints nullable="true"/>
+            <column name="DESCRIPTION" type="VARCHAR(45)">
+                <constraints nullable="false" unique="false"/>
             </column>
         </createTable>
     </changeSet>
 
     <changeSet id="0.0.2" author="Ilya-Ross">
-        <createTable tableName="departments">
-            <column name="ID" type="BIGINT" autoIncrement="true">
+        <createTable tableName="payment_failure_reason">
+            <column name="ID" type="uuid">
                 <constraints nullable="false"
                              primaryKey="true"/>
             </column>
-            <column name="NAME" type="VARCHAR(50)">
+            <column name="CODE" type="VARCHAR(21)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(45)">
                 <constraints nullable="false" unique="false"/>
             </column>
-            <column name="LOCATION" type="VARCHAR(40)">
+            <column name="DESCRIPTION" type="VARCHAR(45)">
                 <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="PROCESSOR_ID" type="UUID">
+                <constraints foreignKeyName="payment_processor_fk" references="payment_processor(id)"
+                             nullable="false"
+                             deleteCascade="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet id="0.0.3" author="Ilya-Ross">
-        <createTable tableName="person_department">
-            <column name="DEPARTMENT_ID" type="BIGINT">
-                <constraints foreignKeyName="department_fk" references="DEPARTMENTS(id)" nullable="false"
-                             deleteCascade="true"/>
+        <createTable tableName="generic_failure_reason">
+            <column name="ID" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"/>
             </column>
-            <column name="PERSON_ID" type="BIGINT">
-                <constraints foreignKeyName="person_fk" references="PERSONS(id)" nullable="false" deleteCascade="true"/>
+            <column name="CODE" type="VARCHAR(21)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(45)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(45)">
+                <constraints nullable="false" unique="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet id="0.0.4" author="Ilya-Ross">
-        <addUniqueConstraint
-                columnNames="DEPARTMENT_ID, PERSON_ID"
-                constraintName="person_department_unique_constraint"
-                tableName="person_department"/>
+        <createTable tableName="failure_reason_mapping">
+            <column name="PAYMENT_FAILURE_REASON_ID" type="UUID">
+                <constraints foreignKeyName="payment_failure_reason_fk" references="PAYMENT_FAILURE_REASON(id)"
+                             nullable="false"
+                             deleteCascade="true"/>
+            </column>
+            <column name="GENERIC_FAILURE_REASON_ID" type="UUID">
+                <constraints foreignKeyName="generic_failure_reason_fk" references="GENERIC_FAILURE_REASON(id)"
+                             nullable="false"
+                             deleteCascade="true"/>
+            </column>
+        </createTable>
     </changeSet>
-
     <changeSet id="0.0.5" author="Ilya-Ross">
+        <addUniqueConstraint
+                columnNames="PAYMENT_FAILURE_REASON_ID, GENERIC_FAILURE_REASON_ID"
+                constraintName="mapping_payment_failure_unique_constraint"
+                tableName="failure_reason_mapping"/>
+    </changeSet>
+    <changeSet id="0.0.6" author="Ilya-Ross">
+        <addUniqueConstraint
+                columnNames="ID, PROCESSOR_ID"
+                constraintName="payment_failure_unique_constraint"
+                tableName="payment_failure_reason"/>
+    </changeSet>
+    <changeSet id="0.0.7" author="Ilya-Ross">
         <sql>
             create table logged_actions
             (
@@ -116,26 +140,31 @@
             '
             LANGUAGE plpgsql;
 
-            CREATE TRIGGER persons_audit
+            CREATE TRIGGER payment_processor_audit
                 AFTER INSERT OR
             UPDATE OR
             DELETE
-            ON persons
+            ON payment_processor
                 FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
 
-            CREATE TRIGGER department_audit
+            CREATE TRIGGER payment_failure_reason_audit
                 AFTER INSERT OR
             UPDATE OR
             DELETE
-            ON departments
+            ON payment_failure_reason
                 FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
 
-            CREATE TRIGGER person_department_audit
+            CREATE TRIGGER generic_failure_reason_audit
                 AFTER INSERT OR
             DELETE
-            ON person_department
+            ON generic_failure_reason
                 FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
 
+            CREATE TRIGGER failure_reason_mapping_audit
+                AFTER INSERT OR
+            DELETE
+            ON failure_reason_mapping
+                FOR EACH ROW EXECUTE PROCEDURE if_modified_func();
         </sql>
     </changeSet>
 

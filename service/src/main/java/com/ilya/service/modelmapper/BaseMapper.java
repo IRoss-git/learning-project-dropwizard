@@ -1,7 +1,7 @@
 package com.ilya.service.modelmapper;
 
 
-import com.ilya.db.domain.BaseEntity;
+import com.ilya.db.domain.Base;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * E - Entity
  */
 
-public interface BaseMapper<D, E extends BaseEntity> {
+public interface BaseMapper<D, E extends Base> {
 
     E convertToEntity(final D input);
 

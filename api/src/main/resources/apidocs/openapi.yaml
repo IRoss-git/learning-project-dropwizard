@@ -13,32 +13,32 @@ tags:
     description: person controller
 
 paths:
-  /persons:
+  /payment_processors:
     post:
       tags:
-        - person
-      summary: Create new Persons
-      description: new Person
-      operationId: createPerson
+        - paymentProcessor
+      summary: Create new paymentProcessor
+      description: new paymentProcessor
+      operationId: createPaymentProcessor
       requestBody:
-        description: A payload for creating a new Person
+        description: A payload for creating a new paymentProcessor
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdatePerson'
+              $ref: '#/components/schemas/CreateUpdatePaymentProcessor'
       responses:
         201:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadPerson'
+                $ref: '#/components/schemas/ReadPaymentProcessor'
     get:
       tags:
-        - person
-      summary: get all persons
-      description: all persons
-      operationId: getPersons
+        - paymentProcessor
+      summary: get all paymentProcessors
+      description: all paymentProcessors
+      operationId: getPaymentProcessors
       parameters:
         - in: query
           name: page_number
@@ -63,34 +63,33 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ReadPersons"
+                  $ref: "#/components/schemas/ReadPaymentProcessor"
         400:
           $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/Unauthorized'
         default:
           $ref: '#/components/responses/InternalServerError'
-  /persons/{id}:
+  /payment_processors/{id}:
     get:
       tags:
-        - person
-      summary: get person
-      description: get person by id
-      operationId: getPerson
+        - paymentProcessor
+      summary: get payment paymentProcessor
+      description: get paymentProcessor by id
+      operationId: getPaymentProcessor
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadPerson'
+                $ref: '#/components/schemas/ReadPaymentProcessor'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -103,30 +102,29 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - person
-      summary: update person
-      description: update person by id
-      operationId: updatePerson
+        - paymentProcessor
+      summary: update paymentProcessor
+      description: update paymentProcessor by id
+      operationId: updatePaymentProcessor
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       requestBody:
         description: A payload for update Person
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdatePerson'
+              $ref: '#/components/schemas/CreateUpdatePaymentProcessor'
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadPerson'
+                $ref: '#/components/schemas/ReadPaymentProcessor'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -139,17 +137,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - person
-      summary: delete person
-      description: delete person by id
-      operationId: deletePerson
+        - paymentProcessor
+      summary: delete paymentProcessor
+      description: delete paymentProcessor by id
+      operationId: deletePaymentProcessor
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         204:
           description: Success
@@ -161,32 +158,218 @@ paths:
           $ref: '#/components/responses/Conflict'
         default:
           $ref: '#/components/responses/InternalServerError'
-  /departments:
+  /payment_processor/{payment_processor_id}/payment_failure_reason:
     post:
       tags:
-        - department
-      summary: Create new Department
-      description: newDepartment
-      operationId: createDepartment
+        - Payment failure reason
+      summary: Create payment failure reason
+      description: The endpoint associating creating payment failure reason
+      operationId: createPaymentFailureReason
+      parameters:
+        - name: "payment_processor_id"
+          in: "path"
+          description: The ID of the payment processor
+          required: true
+          schema:
+            type: string
       requestBody:
-        description: A payload for creating a new Department
+        description: A payload for payment failure reason
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateDepartment'
+              $ref: '#/components/schemas/CreateUpdatePaymentFailureReason'
       responses:
         201:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadDepartment'
+                $ref: '#/components/schemas/ReadPaymentFailureReason'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/InternalServerError'
     get:
       tags:
-        - department
-      summary: get all department
-      description: all department
-      operationId: getDepartments
+        - Payment failure reason
+      summary: Get all failure reasons by processor
+      description: The endpoint retrieves the list of reasons associated with processor
+      operationId: getAllPaymentFailureReasonByPaymentProcessor
+      parameters:
+        - name: "payment_processor_id"
+          in: "path"
+          description: The ID of the generic failure reason
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
+            default: 5
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReadPaymentFailureReason"
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /payment_processor/{payment_processor_id}/payment_failure_reason/{id}:
+    get:
+      tags:
+        - Payment failure reason
+      summary: Get failure reason by id in specified payment processor
+      description: The endpoint retrieves an existing failure reason
+        associated with the specified department
+      operationId: getPaymentFailureReason
+      parameters:
+        - name: "payment_processor_id"
+          in: "path"
+          description: id of payment processor
+          required: true
+          schema:
+            type: string
+        - name: "id"
+          in: "path"
+          description: id of payment failure reason
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPaymentFailureReason'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Payment failure reason
+      summary: Delete payment failure reason by ID
+      description: The endpoint updates payment failure reason
+      operationId: updatePaymentFailureReason
+      parameters:
+        - name: "payment_processor_id"
+          in: "path"
+          description: id of payment processor
+          required: true
+          schema:
+            type: string
+        - name: "id"
+          in: "path"
+          description: id of payment failure reason
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: A payload for update Person
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdatePaymentFailureReason'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPaymentFailureReason'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        409:
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Payment failure reason
+      summary: Delete house by ID
+      description: The endpoint deletes payment failure reason
+      operationId: deletePaymentFailureReason
+      parameters:
+        - name: "payment_processor_id"
+          in: "path"
+          description: id of payment processor
+          required: true
+          schema:
+            type: string
+        - name: "id"
+          in: "path"
+          description: id of payment failure reason
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/InternalServerError'
+  /payment_generic_failure_reason:
+    post:
+      tags:
+        - generic reason
+      summary: Create new payment failure generic reason
+      description: new payment failure generic reason
+      operationId: createPaymentGenericFailureReason
+      requestBody:
+        description: A payload for creating a new payment failure generic reason
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateGenericPaymentFailureReason'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadGenericPaymentFailureReason'
+    get:
+      tags:
+        - generic reason
+      summary: get all payment failure generic reason
+      description: all payment failure generic reason
+      operationId: getPaymentGenericFailureReasons
       parameters:
         - in: query
           name: page_number
@@ -211,34 +394,33 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ReadDepartment"
+                  $ref: "#/components/schemas/ReadGenericPaymentFailureReason"
         400:
           $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/Unauthorized'
         default:
           $ref: '#/components/responses/InternalServerError'
-  /departments/{id}:
+  /payment_generic_failure_reason/{id}:
     get:
       tags:
-        - department
-      summary: get department
-      description: get department by id
-      operationId: getDepartment
+        - generic reason
+      summary: get payment failure generic reason
+      description: get payment failure generic reason by id
+      operationId: getPaymentGenericFailureReason
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadDepartment'
+                $ref: '#/components/schemas/ReadGenericPaymentFailureReason'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -251,30 +433,29 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - department
-      summary: update department
-      description: update department by id
-      operationId: updateDepartment
+        - generic reason
+      summary: update payment failure reason
+      description: update payment failure generic reason by id
+      operationId: updatePaymentGenericFailureReason
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       requestBody:
-        description: A payload for update department
+        description: A payload for update Person
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateDepartment'
+              $ref: '#/components/schemas/CreateUpdateGenericPaymentFailureReason'
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadDepartment'
+                $ref: '#/components/schemas/ReadGenericPaymentFailureReason'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -287,17 +468,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - department
-      summary: delete department
-      description: delete department by id
-      operationId: deleteDepartment
+        - generic reason
+      summary: delete payment failure generic reason
+      description: delete payment failure generic reason by id
+      operationId: deletePaymentGenericFailureReason
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         204:
           description: Success
@@ -309,35 +489,33 @@ paths:
           $ref: '#/components/responses/Conflict'
         default:
           $ref: '#/components/responses/InternalServerError'
-  /department/{department_id}/persons:
+  /payment_generic_failure_reason/{payment_generic_failure_reason_id}/payment_failure_reason:
     post:
       tags:
-        - Person department
+        - Payment failure reason mapping with generic
       summary: Set person for department
       description: The endpoint associating person with department
-      operationId: setPersonForDepartment
+      operationId: setRefPaymentFailureReason
       parameters:
-        - name: "department_id"
+        - name: "payment_generic_failure_reason_id"
           in: "path"
-          description: The ID of the Department
+          description: The ID of the generic failure reason
           required: true
           schema:
-            type: integer
-            format: int64
-            example: 1
+            type: string
       requestBody:
         description: A payload for set department for person
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddPersonToDepartment'
+              $ref: '#/components/schemas/RefPaymentFailureReason'
       responses:
         201:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadPerson'
+                $ref: '#/components/schemas/ReadPaymentFailureReason'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -348,19 +526,17 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     get:
       tags:
-        - Person department
-      summary: Get all Persons by Department
-      description: The endpoint retrieves the list of person associated with department
-      operationId: getAllPersonsByDepartment
+        - Payment failure reason mapping with generic
+      summary: Get all failure reasons by generic
+      description: The endpoint retrieves the list of reasons associated with generic reason
+      operationId: getAllPaymentFailureReasonByGenericReason
       parameters:
-        - name: "department_id"
+        - name: "payment_generic_failure_reason_id"
           in: "path"
-          description: The ID of the Department
+          description: The ID of the generic failure reason
           required: true
           schema:
-            type: integer
-            format: int64
-            example: 1
+            type: string
         - in: query
           name: page_number
           schema:
@@ -384,7 +560,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ReadPerson"
+                  $ref: "#/components/schemas/ReadPaymentFailureReason"
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -446,172 +622,95 @@ paths:
         default:
           $ref: '#/components/responses/InternalServerError'
 
-  /department/{department_id}/persons/{id}:
-    get:
-      tags:
-        - Person department
-      summary: Get Person by ID in specified department
-      description: The endpoint retrieves an existing person
-        associated with the specified department
-      operationId: getPersonByDepartment
-      parameters:
-        - name: "department_id"
-          in: "path"
-          description: The ID of the Department
-          required: true
-          schema:
-            type: integer
-            format: int64
-            example: 1
-        - name: "id"
-          in: "path"
-          description: The ID of the Person
-          required: true
-          schema:
-            type: integer
-            format: int64
-            example: 1
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReadPerson'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
-        default:
-          $ref: '#/components/responses/InternalServerError'
-    delete:
-      tags:
-        - Person department
-      summary: Delete house by ID
-      description: The endpoint deletes person from department
-      operationId: deletePersonFromDepartment
-      parameters:
-        - name: "department_id"
-          in: "path"
-          description: The ID of the Department
-          required: true
-          schema:
-            type: integer
-            format: int64
-            example: 1
-        - name: "id"
-          in: "path"
-          description: The ID of the Person
-          required: true
-          schema:
-            type: integer
-            format: int64
-            example: 1
-      responses:
-        204:
-          $ref: '#/components/responses/NoContentResponse'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
-        default:
-          $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Person:
-      required:
-        - email
-        - name
-        - surname
-      type: object
-      properties:
-        email:
-          type: string
-          example: "newemail@gmail.com"
-          minLength: 11
-          maxLength: 25
-        name:
-          type: string
-          example: Mike
-          minLength: 2
-          maxLength: 20
-        surname:
-          type: string
-          example: Anderson
-          minLength: 2
-          maxLength: 30
-    CreateUpdatePerson:
-      allOf:
-        - $ref: '#/components/schemas/Person'
-      required:
-        - password
-      type: object
-      properties:
-        password:
-          type: string
-          minLength: 11
-          maxLength: 22
-          example: "33password11"
-    ReadPerson:
-      allOf:
-        - $ref: '#/components/schemas/Person'
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        departments:
-          type: array
-          items:
-            $ref: "#/components/schemas/ReadDepartment"
-    ReadPersons:
-      allOf:
-        - $ref: '#/components/schemas/Person'
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-    Department:
+    Base:
       required:
         - name
-        - location
-      type: object
+        - description
       properties:
         name:
           type: string
-          example: Secutiry Department
-          minLength: 8
-          maxLength: 100
-        location:
+          example: Some name
+          minLength: 4
+          maxLength: 45
+        description:
           type: string
-          example: Dnipro
-          minLength: 2
-          maxLength: 56
-    CreateUpdateDepartment:
+          example: Description
+          minLength: 4
+          maxLength: 45
+    CreateUpdatePaymentProcessor:
+      required:
+        - key
       allOf:
-        - $ref: '#/components/schemas/Department'
-      type: object
-
-    ReadDepartment:
-      allOf:
-        - $ref: '#/components/schemas/Department'
-      type: object
+        - $ref: '#/components/schemas/Base'
+      properties:
+        key:
+          type: string
+          example: SomeProcessor
+          minLength: 4
+          maxLength: 45
+    ReadPaymentProcessor:
       properties:
         id:
-          type: integer
-          format: int64
-          example: 1
-        persons:
-          type: array
-          items:
-            $ref: "#/components/schemas/ReadPerson"
+          type: string
+          example: bfbfded2-2cde-4450-925f-e96fbc75c88d
+        key:
+          type: string
+          example: SomeProcessor
+          minLength: 4
+          maxLength: 45
+      allOf:
+        - $ref: '#/components/schemas/Base'
+    CreateUpdatePaymentFailureReason:
+      required:
+        - code
+      allOf:
+        - $ref: '#/components/schemas/Base'
+      properties:
+        code:
+          type: string
+          example: Some Code
+          minLength: 4
+          maxLength: 45
+    ReadPaymentFailureReason:
+      properties:
+        id:
+          type: string
+          example: bfbfded2-2cde-4450-925f-e96fbc75c88d
+        code:
+          type: string
+          example: Some Code
+          minLength: 4
+          maxLength: 45
+      allOf:
+        - $ref: '#/components/schemas/Base'
+    CreateUpdateGenericPaymentFailureReason:
+      required:
+        - code
+      allOf:
+        - $ref: '#/components/schemas/Base'
+      properties:
+        code:
+          type: string
+          example: Some Code
+          minLength: 4
+          maxLength: 45
+    ReadGenericPaymentFailureReason:
+      required:
+        - id
+        - code
+      properties:
+        id:
+          type: string
+          example: bfbfded2-2cde-4450-925f-e96fbc75c88d
+        code:
+          type: string
+          example: Some Code
+          minLength: 4
+          maxLength: 45
+      allOf:
+        - $ref: '#/components/schemas/Base'
     CreateContent:
       type: object
       properties:
@@ -627,14 +726,11 @@ components:
         value:
           type: string
           example: Some content
-
-    AddPersonToDepartment:
+    RefPaymentFailureReason:
       type: object
       properties:
-        person_id:
-          type: integer
-          format: int64
-          example: 1
+        reason_id:
+          type: string
     ApiError:
       type: object
       properties:

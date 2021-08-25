@@ -1,8 +1,6 @@
 package com.ilya.service.service.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.learn.dropwizard.model.CreateUpdatePersonDTO;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -11,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import com.ilya.service.service.PersonService;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -26,8 +23,8 @@ public class KafkaConsumer implements Runnable {
     @Autowired
     private KafkaConsumerConfig kafkaConsumerConfig;
 
-    @Autowired
-    private PersonService personService;
+//    @Autowired
+//    private PersonService personService;
 
     @Value("${kafka.topic}")
     private String topic;
@@ -41,11 +38,11 @@ public class KafkaConsumer implements Runnable {
                 ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(Long.parseLong(kafkaConsumerConfig.getProperties().getProperty(MAX_POLL_INTERVAL_MS_CONFIG))));
                 for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
                     try {
-                        CreateUpdatePersonDTO createUpdatePersonDTO = objectMapper.readValue(consumerRecord.value(), CreateUpdatePersonDTO.class);
-                        personService.createPerson(createUpdatePersonDTO);
+//                        CreateUpdatePersonDTO createUpdatePersonDTO = objectMapper.readValue(consumerRecord.value(), CreateUpdatePersonDTO.class);
+//                        personService.createPerson(createUpdatePersonDTO);
 
                         LOGGER.info("Person {} successfully created", consumerRecord.value());
-                    } catch (JsonProcessingException e) {
+                    } catch (Exception e) {
                         LOGGER.warn("Incorrect message format message = {}", consumerRecord.value());
                     }
                 }
