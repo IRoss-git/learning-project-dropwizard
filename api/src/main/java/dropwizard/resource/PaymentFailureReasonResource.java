@@ -1,6 +1,9 @@
 package dropwizard.resource;
 
 import com.ilya.service.service.PaymentFailureReasonService;
+import com.ilya.service.service.vault.VaultService;
+import com.learn.dropwizard.model.CreateDataDTO;
+import com.learn.dropwizard.model.ReadDataDTO;
 import com.learn.dropwizard.model.CreateUpdatePaymentFailureReasonDTO;
 import com.learn.dropwizard.model.ReadPaymentFailureReasonDTO;
 import com.learn.dropwizard.api.PaymentProcessorApi;
@@ -16,6 +19,22 @@ public class PaymentFailureReasonResource implements PaymentProcessorApi {
     @Autowired
     private PaymentFailureReasonService paymentFailureReasonService;
 
+    @Autowired
+    private VaultService vaultService;
+
+    @Override
+    public Response createData(CreateDataDTO createDataDTO) {
+        vaultService.write(createDataDTO);
+
+        return Response.status(Response.Status.CREATED).entity(createDataDTO).build();
+    }
+
+    @Override
+    public Response getData(String key) {
+        ReadDataDTO readDataDTO = vaultService.read(key);
+
+        return Response.status(Response.Status.OK).entity(readDataDTO).build();
+    }
 
     @Override
     public Response createPaymentFailureReason(String paymentProcessorId, CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO) {

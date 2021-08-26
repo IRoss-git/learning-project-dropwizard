@@ -11,6 +11,7 @@ import com.jw.model.ReadPaymentFailureReason;
 import com.jw.model.ReadPaymentProcessor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+import util.ApiClientUtil;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -25,9 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PaymentFailureReasonIT {
-    private final PaymentFailureReasonApi paymentFailureReasonApi = new PaymentFailureReasonApi();
 
-    private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi();
+    private final PaymentFailureReasonApi paymentFailureReasonApi = new PaymentFailureReasonApi(ApiClientUtil.getApiClient());
+
+    private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi(ApiClientUtil.getApiClient());
 
     @Test
     public void createPaymentFailureReasonTest() throws ApiException {

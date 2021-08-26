@@ -3,8 +3,8 @@ package com.ilya.service.service.vault;
 import com.bettercloud.vault.Vault;
 import com.bettercloud.vault.VaultException;
 import com.bettercloud.vault.response.LogicalResponse;
-import com.learn.dropwizard.model.CreateContentDTO;
-import com.learn.dropwizard.model.ReadContentDTO;
+import com.learn.dropwizard.model.CreateDataDTO;
+import com.learn.dropwizard.model.ReadDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +21,23 @@ public class VaultService {
 
     public static final String PATH = "kv/test";
 
-    public ReadContentDTO read(String key) {
-        ReadContentDTO readContentDTO = new ReadContentDTO();
+    public ReadDataDTO read(String key) {
+        ReadDataDTO readDataDTO = new ReadDataDTO();
         try {
             String value = vault.logical().read(PATH).getData().get(key);
             if(value==null){
                 throw new NotFoundException("Value with provided key not found");
             }
-            readContentDTO.setValue(value);
+            readDataDTO.setValue(value);
         } catch (VaultException e) {
             e.printStackTrace();
         }
-        return readContentDTO;
+        return readDataDTO;
     }
 
-    public void write(CreateContentDTO createContentDTO) {
-        String key = createContentDTO.getKey();
-        String value = createContentDTO.getValue();
+    public void write(CreateDataDTO createDataDTO) {
+        String key = createDataDTO.getKey();
+        String value = createDataDTO.getValue();
 
         final Map<String, Object> secrets = new HashMap<>();
         secrets.put(key, value);
@@ -49,7 +49,6 @@ public class VaultService {
         } catch (VaultException e) {
             e.printStackTrace();
         }
-
     }
 }
 

@@ -7,6 +7,7 @@ import com.jw.model.CreateUpdateGenericPaymentFailureReason;
 import com.jw.model.ReadGenericPaymentFailureReason;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+import util.ApiClientUtil;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -21,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GenericFailureReasonIT {
-    private final GenericReasonApi genericReasonApi = new GenericReasonApi();
+
+    private final GenericReasonApi genericReasonApi = new GenericReasonApi(ApiClientUtil.getApiClient());
 
     @Test
     public void createGenericReasonTest() throws ApiException {

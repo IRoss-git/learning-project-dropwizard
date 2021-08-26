@@ -16,6 +16,6 @@ public final class ApiClientUtil {
 
 
     private static void setHost(ApiClient client){
-        client.setServers(List.of(new ServerConfiguration("http://localhost:8080", "No description provided", new HashMap())));
+        client.setServers(List.of(new ServerConfiguration("http://localhost:8080/pr", "No description provided", new HashMap())));
     }
 }

@@ -596,22 +596,22 @@ paths:
           $ref: '#/components/responses/Conflict'
         default:
           $ref: '#/components/responses/InternalServerError'
-  /persons/content/:
+  /payment_processor/data/:
     post:
       tags:
-        - Person content
+        - Payment processor data
       summary: Create
-      description: The endpoint creates content
-      operationId: createContent
+      description: The endpoint creates data
+      operationId: createData
       requestBody:
-        description: A payload for create new content
+        description: A payload for create new data
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateContent'
+              $ref: '#/components/schemas/CreateData'
       responses:
         201:
-          $ref: '#/components/schemas/CreateContent'
+          $ref: '#/components/schemas/ReadData'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -620,13 +620,13 @@ paths:
           $ref: '#/components/responses/Forbidden'
         default:
           $ref: '#/components/responses/InternalServerError'
-  /persons/content/{key}:
+  /payment_processor/data/{key}:
     get:
       tags:
-        - Person content
-      summary: Get Content by key
-      description: The endpoint retrieves a content
-      operationId: getContent
+        - Payment processor data
+      summary: Get Data by key
+      description: The endpoint retrieves a data
+      operationId: getData
       parameters:
         - name: "key"
           in: "path"
@@ -641,7 +641,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadContent'
+                $ref: '#/components/schemas/ReadData'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -740,7 +740,7 @@ components:
           maxLength: 45
       allOf:
         - $ref: '#/components/schemas/Base'
-    CreateContent:
+    CreateData:
       type: object
       properties:
         key:
@@ -749,12 +749,12 @@ components:
         value:
           type: string
           example: Some secret content
-    ReadContent:
+    ReadData:
       type: object
       properties:
         value:
           type: string
-          example: Some content
+          example: Some data
     RefPaymentFailureReason:
       type: object
       properties:

@@ -7,6 +7,7 @@ import com.jw.model.CreateUpdatePaymentProcessor;
 import com.jw.model.ReadPaymentProcessor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+import util.ApiClientUtil;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PaymentProcessorIT {
 
-    private PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi();
+    private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi(ApiClientUtil.getApiClient());
 
     @Test
     public void createPaymentProcessorTest() throws ApiException {

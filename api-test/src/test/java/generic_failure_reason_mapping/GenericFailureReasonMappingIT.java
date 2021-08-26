@@ -15,6 +15,7 @@ import com.jw.model.ReadPaymentProcessor;
 import com.jw.model.RefPaymentFailureReason;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+import util.ApiClientUtil;
 
 import javax.ws.rs.core.Response;
 
@@ -23,19 +24,18 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class GenericFailureReasonMappingIT {
 
-    private final PaymentFailureReasonMappingWithGenericApi paymentFailureReasonMappingWithGenericApi = new PaymentFailureReasonMappingWithGenericApi();
+    private final PaymentFailureReasonMappingWithGenericApi paymentFailureReasonMappingWithGenericApi = new PaymentFailureReasonMappingWithGenericApi(ApiClientUtil.getApiClient());
 
-    private final GenericReasonApi genericReasonApi = new GenericReasonApi();
+    private final GenericReasonApi genericReasonApi = new GenericReasonApi(ApiClientUtil.getApiClient());
 
-    private final PaymentFailureReasonApi paymentFailureReasonApi = new PaymentFailureReasonApi();
+    private final PaymentFailureReasonApi paymentFailureReasonApi = new PaymentFailureReasonApi(ApiClientUtil.getApiClient());
 
-    private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi();
+    private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi(ApiClientUtil.getApiClient());
 
     @Test
     public void createReasonMapping() throws ApiException {
