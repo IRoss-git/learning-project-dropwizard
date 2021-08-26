@@ -1,7 +1,8 @@
-package com.ilya.service;
+package com.ilya.service.service;
 
 import com.ilya.db.dao.PaymentProcessorDAO;
 import com.ilya.db.domain.PaymentProcessor;
+import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreatePaymentProcessorMapper;
 import com.ilya.service.modelmapper.ReadPaymentProcessorMapper;
 import com.ilya.service.service.PaymentProcessorServiceImpl;
@@ -17,14 +18,19 @@ import java.util.UUID;
 
 import com.learn.dropwizard.model.ReadPaymentProcessorDTO;
 import com.learn.dropwizard.model.CreateUpdatePaymentProcessorDTO;
+
+import javax.ws.rs.NotFoundException;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PersonServiceImplTest {
+class PaymentProcessorServiceImplTest {
+
     @Mock
     private PaymentProcessorDAO paymentProcessorDAO;
 
@@ -58,7 +64,6 @@ class PersonServiceImplTest {
 
         when(readPaymentProcessorMapper.convertToDto(paymentProcessor)).thenReturn(readPaymentProcessorDTO);
         when(createPaymentProcessorMapper.convertToEntity(createUpdatePaymentProcessorDTO)).thenReturn(paymentProcessor);
-        when(paymentProcessorDAO.isPaymentProcessorWithKeyExists(null)).thenReturn(false);
 
         ReadPaymentProcessorDTO expected = paymentProcessorService.createPaymentProcessor(createUpdatePaymentProcessorDTO);
 
@@ -102,12 +107,60 @@ class PersonServiceImplTest {
         String uuid = String.valueOf(UUID.randomUUID());
 
         when(createPaymentProcessorMapper.convertToEntity(createUpdatePaymentProcessorDTO)).thenReturn(paymentProcessor);
-        when(paymentProcessorDAO.isPaymentProcessorWithKeyExists(null)).thenReturn(false);
         when(readPaymentProcessorMapper.convertToDto(paymentProcessor)).thenReturn(readPaymentProcessorDTO);
 
         ReadPaymentProcessorDTO expected = paymentProcessorService.updatePaymentProcessor(uuid, createUpdatePaymentProcessorDTO);
 
         assertThat(expected).isNotNull();
         verify(paymentProcessorDAO, times(1)).updatePaymentProcessor(uuid, paymentProcessor);
+    }
+
+    @Test
+    public void createExistingKey(){
+        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
+        PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
+
+        when(createPaymentProcessorMapper.convertToEntity(createUpdatePaymentProcessorDTO)).thenReturn(paymentProcessor);
+        when(paymentProcessorDAO.isPaymentProcessorWithKeyExists(null)).thenReturn(true);
+
+        assertThrows(AlreadyExistException.class, () -> paymentProcessorService.createPaymentProcessor(createUpdatePaymentProcessorDTO));
+    }
+
+    @Test
+    public void updateExistingKey(){
+        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
+        String uuid = String.valueOf(UUID.randomUUID());
+
+        when(paymentProcessorDAO.isPaymentProcessorWithKeyExists(null)).thenReturn(true);
+
+        assertThrows(AlreadyExistException.class, () -> paymentProcessorService.updatePaymentProcessor(uuid,createUpdatePaymentProcessorDTO));
+    }
+
+    @Test
+    public void getNonExisting(){
+        when(paymentProcessorDAO.isPaymentProcessorNonExists(null)).thenReturn(true);
+
+        assertThrows(NotFoundException.class, () -> paymentProcessorService.getPaymentProcessor(null));
+    }
+
+    @Test
+    public void updateNonExisting(){
+        when(paymentProcessorDAO.isPaymentProcessorNonExists(null)).thenReturn(true);
+
+        assertThrows(NotFoundException.class, () -> paymentProcessorService.updatePaymentProcessor(null,null));
+    }
+
+    @Test
+    public void deleteNonExisting(){
+        when(paymentProcessorDAO.isPaymentProcessorNonExists(null)).thenReturn(true);
+
+        assertThrows(NotFoundException.class, () -> paymentProcessorService.deletePaymentProcessor(null));
+    }
+
+    @Test
+    public void isExists(){
+        when(paymentProcessorDAO.isPaymentProcessorNonExists(null)).thenReturn(true);
+
+        assertThrows(NotFoundException.class, () -> paymentProcessorService.isPaymentProcessorExists(null));
     }
 }

@@ -10,8 +10,6 @@ import com.ilya.service.modelmapper.ReadPaymentProcessorMapper;
 import com.learn.dropwizard.model.RefPaymentFailureReasonDTO;
 import com.learn.dropwizard.model.CreateUpdatePaymentFailureReasonDTO;
 import com.learn.dropwizard.model.ReadPaymentFailureReasonDTO;
-import org.apache.kafka.common.protocol.types.Field;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -115,6 +113,7 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
 
         checkGenericReasonAndReasonExistence(genericReasonId, reasonId);
         checkIfMappingAlreadyExists(genericReasonId, reasonId);
+
         paymentFailureReasonDAO.createReasonMapping(genericReasonId, reasonId);
 
         return readPaymentFailureReasonMapper.convertToDto(paymentFailureReasonDAO.getPaymentFailureReason(reasonId));

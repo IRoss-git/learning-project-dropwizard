@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class GenericPaymentFailureReasonImpl implements GenericPaymentFailureReasonService{
+public class GenericPaymentFailureReasonServiceImpl implements GenericPaymentFailureReasonService{
 
     @Autowired
     private GenericFailureReasonDAO genericFailureReasonDAO;

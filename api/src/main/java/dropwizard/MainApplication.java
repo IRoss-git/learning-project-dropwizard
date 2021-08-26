@@ -32,7 +32,7 @@ public class MainApplication extends Application<BasicConfiguration> {
 
         setUpSpringContext();
         registerResources();
-//        startConsumers();
+        startConsumers();
     }
 
     private void startConsumers() {
