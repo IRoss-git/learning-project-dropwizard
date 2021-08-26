@@ -42,7 +42,7 @@ public class KafkaConsumer implements Runnable {
                         CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = objectMapper.readValue(consumerRecord.value(), CreateUpdatePaymentProcessorDTO.class);
                         paymentProcessorService.createPaymentProcessor(createUpdatePaymentProcessorDTO);
 
-                        LOGGER.info("Person {} successfully created", consumerRecord.value());
+                        LOGGER.info("Payment processor {} successfully created", consumerRecord.value());
                     } catch (Exception e) {
                         LOGGER.warn("Incorrect message format message = {}", consumerRecord.value());
                     }

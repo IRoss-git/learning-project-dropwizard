@@ -1,7 +1,9 @@
 package com.ilya.service.service.vault;
 
 import com.bettercloud.vault.Vault;
+import com.bettercloud.vault.VaultConfig;
 import com.bettercloud.vault.VaultException;
+import com.bettercloud.vault.response.AuthResponse;
 import com.bettercloud.vault.response.LogicalResponse;
 import com.learn.dropwizard.model.CreateDataDTO;
 import com.learn.dropwizard.model.ReadDataDTO;
@@ -25,7 +27,7 @@ public class VaultService {
         ReadDataDTO readDataDTO = new ReadDataDTO();
         try {
             String value = vault.logical().read(PATH).getData().get(key);
-            if(value==null){
+            if (value == null) {
                 throw new NotFoundException("Value with provided key not found");
             }
             readDataDTO.setValue(value);
@@ -34,6 +36,8 @@ public class VaultService {
         }
         return readDataDTO;
     }
+
+//   AuthResponse cr = vault.auth().renewSelf();
 
     public void write(CreateDataDTO createDataDTO) {
         String key = createDataDTO.getKey();
