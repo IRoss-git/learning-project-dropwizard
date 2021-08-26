@@ -59,7 +59,7 @@ public class GenericFailureReasonMappingIT {
     }
 
     @Test
-    public void getFailureReasonByGenericTest() throws ApiException {
+    public void getMappingTest() throws ApiException {
         ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
 
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());

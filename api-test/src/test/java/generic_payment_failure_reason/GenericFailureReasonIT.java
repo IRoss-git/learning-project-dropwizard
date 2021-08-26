@@ -4,9 +4,7 @@ import com.jw.ApiException;
 import com.jw.ApiResponse;
 import com.jw.api.GenericReasonApi;
 import com.jw.model.CreateUpdateGenericPaymentFailureReason;
-import com.jw.model.CreateUpdatePaymentProcessor;
 import com.jw.model.ReadGenericPaymentFailureReason;
-import com.jw.model.ReadPaymentProcessor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -23,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GenericFailureReasonIT {
-    private GenericReasonApi genericReasonApi = new GenericReasonApi();
+    private final GenericReasonApi genericReasonApi = new GenericReasonApi();
 
     @Test
-    public void createPaymentProcessorTest() throws ApiException {
+    public void createGenericReasonTest() throws ApiException {
         CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason = createUpdateGenericPaymentFailureReason();
 
         ApiResponse<ReadGenericPaymentFailureReason> response = genericReasonApi.createPaymentGenericFailureReasonWithHttpInfo(createUpdateGenericPaymentFailureReason);
@@ -41,7 +39,7 @@ public class GenericFailureReasonIT {
     }
 
     @Test
-    public void getPaymentProcessorTest() throws ApiException {
+    public void getGenericReasonTest() throws ApiException {
         CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason = createUpdateGenericPaymentFailureReason();
 
         ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason);
@@ -57,7 +55,7 @@ public class GenericFailureReasonIT {
     }
 
     @Test
-    public void getAllPaymentProcessorsTest() throws ApiException {
+    public void getAllGenericReasonsTest() throws ApiException {
         CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason = createUpdateGenericPaymentFailureReason();
         CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason2 = createUpdateGenericPaymentFailureReason();
 
@@ -71,7 +69,7 @@ public class GenericFailureReasonIT {
     }
 
     @Test
-    public void deletePaymentProcessorTest() throws ApiException {
+    public void deleteGenericReasonTest() throws ApiException {
         CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason = createUpdateGenericPaymentFailureReason();
 
         ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason);
@@ -81,7 +79,7 @@ public class GenericFailureReasonIT {
     }
 
     @Test
-    public void updateTest() throws ApiException {
+    public void updateGenericReasonTest() throws ApiException {
         CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason = createUpdateGenericPaymentFailureReason();
 
         ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason);
@@ -126,7 +124,7 @@ public class GenericFailureReasonIT {
     }
 
     @Test
-    public void getNonExistingPerson() {
+    public void getNonExistingGenericReason() {
         String nonExistingId = "123e4567-e89b-12d3-a456-426614174020";
 
         var ex = assertThrows(ApiException.class, () -> genericReasonApi.getPaymentGenericFailureReasonWithHttpInfo(nonExistingId));

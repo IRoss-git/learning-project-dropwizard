@@ -18,8 +18,6 @@ import java.util.UUID;
 import com.learn.dropwizard.model.ReadPaymentProcessorDTO;
 import com.learn.dropwizard.model.CreateUpdatePaymentProcessorDTO;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -88,7 +86,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    public void deletePersonTest() {
+    public void deleteTest() {
         String uuid = String.valueOf(UUID.randomUUID());
 
         paymentProcessorService.deletePaymentProcessor(uuid);
@@ -97,7 +95,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    public void updatePersonTest() {
+    public void updateTest() {
         CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
         ReadPaymentProcessorDTO readPaymentProcessorDTO = mock(ReadPaymentProcessorDTO.class);
         PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);

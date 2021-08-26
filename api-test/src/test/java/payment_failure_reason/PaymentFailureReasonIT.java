@@ -30,7 +30,7 @@ public class PaymentFailureReasonIT {
     private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi();
 
     @Test
-    public void createPaymentProcessorTest() throws ApiException {
+    public void createPaymentFailureReasonTest() throws ApiException {
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason = createPaymentFailureReason();
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
 
@@ -46,7 +46,7 @@ public class PaymentFailureReasonIT {
     }
 
     @Test
-    public void getPaymentProcessorTest() throws ApiException {
+    public void getPaymentFailureReasonTest() throws ApiException {
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason = createPaymentFailureReason();
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
         ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createUpdatePaymentFailureReason);
@@ -62,7 +62,7 @@ public class PaymentFailureReasonIT {
     }
 
     @Test
-    public void getAllPaymentProcessorsTest() throws ApiException {
+    public void getAllPaymentFailureReasonsTest() throws ApiException {
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason = createPaymentFailureReason();
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason2 = createPaymentFailureReason();
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
@@ -77,7 +77,7 @@ public class PaymentFailureReasonIT {
     }
 
     @Test
-    public void deletePaymentProcessorTest() throws ApiException {
+    public void deletePaymentFailureReasonTest() throws ApiException {
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason = createPaymentFailureReason();
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
         ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createUpdatePaymentFailureReason);
@@ -89,7 +89,7 @@ public class PaymentFailureReasonIT {
     }
 
     @Test
-    public void updateTest() throws ApiException {
+    public void updatePaymentFailureReasonTest() throws ApiException {
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason = createPaymentFailureReason();
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
         ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createUpdatePaymentFailureReason);
@@ -152,7 +152,7 @@ public class PaymentFailureReasonIT {
     }
 
     @Test
-    public void createWithExistingKey() throws ApiException {
+    public void createWithExistingCode() throws ApiException {
         CreateUpdatePaymentFailureReason createUpdatePaymentFailureReason = createPaymentFailureReason();
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
         paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createUpdatePaymentFailureReason);
@@ -165,7 +165,7 @@ public class PaymentFailureReasonIT {
     }
 
     @Test
-    public void getNonExistingPerson() throws ApiException {
+    public void getNonExistingPaymentFailureReason() throws ApiException {
         ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
 
         String nonExistingId = "123e4567-e89b-12d3-a456-426614175000";
