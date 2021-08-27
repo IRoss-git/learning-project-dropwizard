@@ -275,7 +275,7 @@ paths:
     put:
       tags:
         - Payment failure reason
-      summary: Delete payment failure reason by ID
+      summary: Update payment failure reason by ID
       description: The endpoint updates payment failure reason
       operationId: updatePaymentFailureReason
       parameters:
@@ -317,7 +317,7 @@ paths:
     delete:
       tags:
         - Payment failure reason
-      summary: Delete house by ID
+      summary: Delete failure reason by ID
       description: The endpoint deletes payment failure reason
       operationId: deletePaymentFailureReason
       parameters:
@@ -434,7 +434,7 @@ paths:
     put:
       tags:
         - generic reason
-      summary: update payment failure reason
+      summary: update payment failure generic reason
       description: update payment failure generic reason by id
       operationId: updatePaymentGenericFailureReason
       parameters:
@@ -493,8 +493,8 @@ paths:
     post:
       tags:
         - Payment failure reason mapping with generic
-      summary: Set person for department
-      description: The endpoint associating person with department
+      summary: Set failure reason for generic
+      description: The endpoint failure reason with generic
       operationId: setRefPaymentFailureReason
       parameters:
         - name: "payment_generic_failure_reason_id"
@@ -508,7 +508,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RefPaymentFailureReason'
+              type: array
+              items:
+                $ref: '#/components/schemas/RefPaymentFailureReason'
       responses:
         201:
           description: OK

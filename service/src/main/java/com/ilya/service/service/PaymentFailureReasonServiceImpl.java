@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonService {
@@ -108,15 +109,12 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         return readPaymentFailureReasonMapper.convertToDto(paymentFailureReason);
     }
 
-    public ReadPaymentFailureReasonDTO addFailureReasonToGenericGroup(String genericReasonId, RefPaymentFailureReasonDTO refPaymentFailureReasonDTO) {
-        String reasonId = refPaymentFailureReasonDTO.getReasonId();
-
-        checkGenericReasonAndReasonExistence(genericReasonId, reasonId);
-        checkIfMappingAlreadyExists(genericReasonId, reasonId);
-
-        paymentFailureReasonDAO.createReasonMapping(genericReasonId, reasonId);
-
-        return readPaymentFailureReasonMapper.convertToDto(paymentFailureReasonDAO.getPaymentFailureReason(reasonId));
+    public void addFailureReasonToGenericGroup(String genericReasonId,  List<RefPaymentFailureReasonDTO> refPaymentFailureReasonDTO) {
+        List <String> ids = refPaymentFailureReasonDTO.stream()
+                        .map(RefPaymentFailureReasonDTO::getReasonId)
+                                .collect(Collectors.toList());
+        validateMapping(genericReasonId, ids);
+        paymentFailureReasonDAO.batchInsertMapping(genericReasonId,ids);
     }
 
     @Override
@@ -124,6 +122,13 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         checkGenericReasonAndReasonExistence(genericReasonId, reasonId);
 
         paymentFailureReasonDAO.deleteReasonMappingByGenericIdAndReasonId(genericReasonId, reasonId);
+    }
+
+    private void validateMapping(String genericReasonId, List <String> reasonIds){
+        for (String id: reasonIds){
+            checkGenericReasonAndReasonExistence(genericReasonId, id);
+            checkIfMappingAlreadyExists(genericReasonId, id);
+        }
     }
 
     private void checkGenericReasonAndReasonExistence(String genericReasonId, String reasonId) {
@@ -136,7 +141,7 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
 
     private void checkIfMappingAlreadyExists(String genericReasonId, String reasonId) {
         if (paymentFailureReasonDAO.isMappingExists(genericReasonId, reasonId)) {
-            throw new AlreadyExistException("Mapping already exists");
+            throw new AlreadyExistException("Mapping already exists between " + genericReasonId + " and " + reasonId);
         }
     }
 

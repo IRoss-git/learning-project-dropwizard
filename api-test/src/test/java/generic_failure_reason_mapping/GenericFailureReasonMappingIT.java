@@ -37,60 +37,60 @@ public class GenericFailureReasonMappingIT {
 
     private final PaymentProcessorApi paymentProcessorApi = new PaymentProcessorApi(ApiClientUtil.getApiClient());
 
-    @Test
-    public void createReasonMapping() throws ApiException {
-        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
+//    @Test
+//    public void createReasonMapping() throws ApiException {
+//        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
+//
+//        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
+//        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
+//
+//        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
+//        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
+//
+//        ApiResponse<ReadPaymentFailureReason> response = paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReasonWithHttpInfo(readGenericPaymentFailureReason.getId(), refPaymentFailureReason);
+//
+//
+//        assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
+//        assertThat(response.getData(),
+//                allOf(
+//                        hasProperty("code", notNullValue()),
+//                        hasProperty("name",notNullValue()),
+//                        hasProperty("description", notNullValue())));
+//    }
 
-        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
-        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
+//    @Test
+//    public void getMappingTest() throws ApiException {
+//        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
+//
+//        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
+//        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
+//
+//        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
+//        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
+//        paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReason(readGenericPaymentFailureReason.getId(),refPaymentFailureReason);
+//
+//        ApiResponse<List<ReadPaymentFailureReason>> response = paymentFailureReasonMappingWithGenericApi.getAllPaymentFailureReasonByGenericReasonWithHttpInfo(readGenericPaymentFailureReason.getId(), 1L, 10L);
+//
+//
+//        assertThat(response.getData().size(), equalTo(1));
+//        assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
+//    }
 
-        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
-        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
-
-        ApiResponse<ReadPaymentFailureReason> response = paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReasonWithHttpInfo(readGenericPaymentFailureReason.getId(), refPaymentFailureReason);
-
-
-        assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
-        assertThat(response.getData(),
-                allOf(
-                        hasProperty("code", notNullValue()),
-                        hasProperty("name",notNullValue()),
-                        hasProperty("description", notNullValue())));
-    }
-
-    @Test
-    public void getMappingTest() throws ApiException {
-        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
-
-        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
-        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
-
-        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
-        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
-        paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReason(readGenericPaymentFailureReason.getId(),refPaymentFailureReason);
-
-        ApiResponse<List<ReadPaymentFailureReason>> response = paymentFailureReasonMappingWithGenericApi.getAllPaymentFailureReasonByGenericReasonWithHttpInfo(readGenericPaymentFailureReason.getId(), 1L, 10L);
-
-
-        assertThat(response.getData().size(), equalTo(1));
-        assertThat(response.getStatusCode(), equalTo(Response.Status.OK.getStatusCode()));
-    }
-
-    @Test
-    public void deleteMappingTest() throws ApiException {
-        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
-
-        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
-        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
-
-        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
-        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
-        paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReason(readGenericPaymentFailureReason.getId(),refPaymentFailureReason);
-
-        ApiResponse<Void> response = paymentFailureReasonMappingWithGenericApi.deleteMappingPaymentGenericFailureReasonWithHttpInfo(readGenericPaymentFailureReason.getId(),refPaymentFailureReason.getReasonId());
-
-        assertThat(response.getStatusCode(), equalTo(Response.Status.NO_CONTENT.getStatusCode()));
-    }
+//    @Test
+//    public void deleteMappingTest() throws ApiException {
+//        ReadGenericPaymentFailureReason readGenericPaymentFailureReason = genericReasonApi.createPaymentGenericFailureReason(createUpdateGenericPaymentFailureReason());
+//
+//        ReadPaymentProcessor paymentProcessor = paymentProcessorApi.createPaymentProcessor(createPaymentProcessor());
+//        ReadPaymentFailureReason readPaymentFailureReason = paymentFailureReasonApi.createPaymentFailureReason(paymentProcessor.getId(),createPaymentFailureReason());
+//
+//        RefPaymentFailureReason refPaymentFailureReason = new RefPaymentFailureReason();
+//        refPaymentFailureReason.setReasonId(readPaymentFailureReason.getId());
+//        paymentFailureReasonMappingWithGenericApi.setRefPaymentFailureReason(readGenericPaymentFailureReason.getId(),refPaymentFailureReason);
+//
+//        ApiResponse<Void> response = paymentFailureReasonMappingWithGenericApi.deleteMappingPaymentGenericFailureReasonWithHttpInfo(readGenericPaymentFailureReason.getId(),refPaymentFailureReason.getReasonId());
+//
+//        assertThat(response.getStatusCode(), equalTo(Response.Status.NO_CONTENT.getStatusCode()));
+//    }
 
     CreateUpdateGenericPaymentFailureReason createUpdateGenericPaymentFailureReason() {
         return new CreateUpdateGenericPaymentFailureReason()

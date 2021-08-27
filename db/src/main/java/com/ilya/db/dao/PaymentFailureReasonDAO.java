@@ -3,9 +3,12 @@ package com.ilya.db.dao;
 import com.ilya.db.domain.PaymentFailureReason;
 import com.ilya.db.rowmapper.FailureReasonRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,6 +97,25 @@ public class PaymentFailureReasonDAO {
     public void createReasonMapping(String genericReasonId, String reasonId) {
         String query = "INSERT INTO failure_reason_mapping VALUES (?,?)";
         jdbcTemplate.update(query, UUID.fromString(reasonId), UUID.fromString(genericReasonId));
+    }
+
+    public void batchInsertMapping(String genericReasonId, List<String> reasonId) {
+        String query = "INSERT INTO failure_reason_mapping VALUES (?,?)";
+
+        jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i)
+                    throws SQLException {
+                String current = reasonId.get(i);
+                ps.setObject(1, UUID.fromString(current));
+                ps.setObject(2, UUID.fromString(genericReasonId));
+            }
+            @Override
+            public int getBatchSize() {
+                return reasonId.size();
+            }
+        });
     }
 
     public void deleteReasonMappingByGenericIdAndReasonId(String genericReasonId, String reasonId) {

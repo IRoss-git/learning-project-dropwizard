@@ -65,10 +65,11 @@ public class GenericPaymentFailureReasonResource implements PaymentGenericFailur
     }
 
     @Override
-    public Response setRefPaymentFailureReason(String paymentGenericFailureReasonId, RefPaymentFailureReasonDTO refPaymentFailureReasonDTO) {
-        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = paymentFailureReasonService.addFailureReasonToGenericGroup(paymentGenericFailureReasonId, refPaymentFailureReasonDTO);
+    public Response setRefPaymentFailureReason(String paymentGenericFailureReasonId, List<RefPaymentFailureReasonDTO> refPaymentFailureReasonDTO) {
 
-        return Response.status(Response.Status.OK).entity(readPaymentFailureReasonDTO).build();
+        paymentFailureReasonService.addFailureReasonToGenericGroup(paymentGenericFailureReasonId, refPaymentFailureReasonDTO);
+
+        return Response.status(Response.Status.OK).build();
     }
 
     @Override
