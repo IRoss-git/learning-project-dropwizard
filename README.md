@@ -24,8 +24,7 @@
 - [Liquibase](#liquibase)
 - [Kafka](#kafka)
 - [Vault](#vault)
-- [openapi specification](#Openapi-specification)
-- [swagger-ui](https://github.com/swagger-api/swagger-ui)
+- [swagger](#Openapi-specification)
 
 ---
 
