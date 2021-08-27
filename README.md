@@ -13,7 +13,7 @@
 ## General info
 
 #### Simple web application which created for learning purpose.
-#### It allows managing person, department and persons in department.
+#### It allows managing errors and mapping while processing.
 
 ---
 
@@ -37,7 +37,7 @@
 
 ### Liquibase
 #### Liquibase  is an open-source database-independent library for tracking, managing and applying database schema changes.
-#### You can find changelog files [here](https://github.com/Ilya-Ross/learning-project-dropwizard/tree/master/src/main/resources/changelog/0.0.1)
+#### You can find changelog files [here](https://github.com/Ilya-Ross/learning-project-dropwizard/tree/master/db/src/main/resources/changelog)
 
 ---
 
@@ -55,7 +55,7 @@
 ### Openapi Specification
 #### The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the com.ilya.service.service without access to source code, documentation, or through network traffic inspection.
 
-#### You can find OpenApi specification for the project [here](https://github.com/Ilya-Ross/learning-project-dropwizard/blob/master/src/main/resources/apidocs/openapi.yaml)
+#### You can find OpenApi specification for the project [here](https://github.com/Ilya-Ross/learning-project-dropwizard/blob/master/api/src/main/resources/apidocs/openapi.yaml)
 
 ---
 
@@ -72,15 +72,19 @@
 
 - use `mvn clean install -Pliquibase.migration` in the root directory to run database migrations
 - set up your credentials of database in `application.properties`
-- (kafka required) run zookeeper.server `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`
-- (kafka required) run kafka.server `.\bin\windows\kafka-server-start.bat .\config\server.properties`
+- (optional) run zookeeper.server `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`
+- (optional) run kafka.server `.\bin\windows\kafka-server-start.bat .\config\server.properties`
 - create topic `sh kafka-topics.sh --create --bootstrap-server localhost:9092 --topic person2`
 - (optional) run vault server `vault server -config config.hcl`
-- run application with IDEA
+- run application
+
+### How to run api tests
+
+- use `mvn clean install -Papi-tests` (docker required)
 
 ---
 
 ## Usage
 
 ### After successful run, you can open
-### `localhost:8080/example/apidocs`
+### `localhost:8080/pr/apidocs`
