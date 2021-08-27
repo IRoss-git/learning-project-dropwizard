@@ -18,7 +18,9 @@ import com.learn.dropwizard.model.ReadPaymentFailureReasonDTO;
 import com.learn.dropwizard.model.RefPaymentFailureReasonDTO;
 
 import javax.ws.rs.NotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -132,19 +134,13 @@ class PaymentFailureReasonServiceImplTest {
         assertThat(expected).isSameAs(readPaymentFailureReasonDTO);
     }
 
-//    @Test
-//    void addFailureReasonToGenericGroup() {
-//        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = mock(ReadPaymentFailureReasonDTO.class);
-//        PaymentFailureReason paymentFailureReason = mock(PaymentFailureReason.class);
-//        RefPaymentFailureReasonDTO refPaymentFailureReasonDTO = mock(RefPaymentFailureReasonDTO.class);
-//
-//        when(paymentFailureReasonDAO.getPaymentFailureReason(null)).thenReturn(paymentFailureReason);
-//        when(readPaymentFailureReasonMapper.convertToDto(paymentFailureReason)).thenReturn(readPaymentFailureReasonDTO);
-//
-//        ReadPaymentFailureReasonDTO expected = paymentFailureReasonService.addFailureReasonToGenericGroup(null, refPaymentFailureReasonDTO);
-//        assertThat(expected).isNotNull();
-//        assertThat(expected).isSameAs(readPaymentFailureReasonDTO);
-//    }
+    @Test
+    void addFailureReasonToGenericGroup() {
+        List <RefPaymentFailureReasonDTO> refPaymentFailureReasonDTO = new ArrayList<>();
+
+        paymentFailureReasonService.addFailureReasonToGenericGroup(null, refPaymentFailureReasonDTO);
+        verify(paymentFailureReasonDAO, times(1)).batchInsertMapping(null, refPaymentFailureReasonDTO.stream().map(RefPaymentFailureReasonDTO::getReasonId).collect(Collectors.toList()));
+    }
 
     @Test
     void deleteMapping() {
@@ -174,14 +170,16 @@ class PaymentFailureReasonServiceImplTest {
         assertThrows(NotFoundException.class, () -> paymentFailureReasonService.deletePaymentFailureReason(TEST_UUID, TEST_UUID));
     }
 
-//    @Test
-//    void addAlreadyExistingMapping() {
-//        RefPaymentFailureReasonDTO refPaymentFailureReasonDTO = mock(RefPaymentFailureReasonDTO.class);
-//
-//        when(paymentFailureReasonDAO.isMappingExists(null, null)).thenReturn(true);
-//
-//        assertThrows(AlreadyExistException.class, () -> paymentFailureReasonService.addFailureReasonToGenericGroup(null, refPaymentFailureReasonDTO));
-//    }
+    @Test
+    void addAlreadyExistingMapping() {
+        List <RefPaymentFailureReasonDTO> refPaymentFailureReasonDTOs = new ArrayList<>();
+        RefPaymentFailureReasonDTO refPaymentFailureReasonDTO = mock(RefPaymentFailureReasonDTO.class);
+        refPaymentFailureReasonDTOs.add(refPaymentFailureReasonDTO);
+
+        when(paymentFailureReasonDAO.isMappingExists(null, null)).thenReturn(true);
+
+        assertThrows(AlreadyExistException.class, () -> paymentFailureReasonService.addFailureReasonToGenericGroup(null, refPaymentFailureReasonDTOs));
+    }
 
     @Test
     void deleteNonExistingMapping() {

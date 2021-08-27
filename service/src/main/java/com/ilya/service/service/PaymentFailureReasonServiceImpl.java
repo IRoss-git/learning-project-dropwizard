@@ -47,7 +47,7 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
 
         PaymentFailureReason paymentFailureReason = createPaymentFailureReasonMapper.convertToEntity(createUpdatePaymentFailureReasonDTO);
 
-        checkIfCodeExists(paymentFailureReason.getCode(),paymentProcessorId);
+        checkIfCodeExists(paymentFailureReason.getCode(), paymentProcessorId);
 
         paymentFailureReason.setId(String.valueOf(UUID.randomUUID()));
         paymentFailureReason.setPaymentProcessor(paymentProcessor);
@@ -87,7 +87,7 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         if (paymentFailureReasonDAO.isPaymentFailureReasonNonExists(id)) {
             throw new NotFoundException(String.format(NOT_FOUND, id));
         }
-        checkIfCodeExists(createUpdatePaymentFailureReasonDTO.getCode(),paymentProcessorId);
+        checkIfCodeExists(createUpdatePaymentFailureReasonDTO.getCode(), paymentProcessorId);
 
         PaymentFailureReason paymentFailureReason = createPaymentFailureReasonMapper.convertToEntity(createUpdatePaymentFailureReasonDTO);
 
@@ -109,12 +109,12 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         return readPaymentFailureReasonMapper.convertToDto(paymentFailureReason);
     }
 
-    public void addFailureReasonToGenericGroup(String genericReasonId,  List<RefPaymentFailureReasonDTO> refPaymentFailureReasonDTO) {
-        List <String> ids = refPaymentFailureReasonDTO.stream()
-                        .map(RefPaymentFailureReasonDTO::getReasonId)
-                                .collect(Collectors.toList());
+    public void addFailureReasonToGenericGroup(String genericReasonId, List<RefPaymentFailureReasonDTO> refPaymentFailureReasonDTO) {
+        List<String> ids = refPaymentFailureReasonDTO.stream()
+                .map(RefPaymentFailureReasonDTO::getReasonId)
+                .collect(Collectors.toList());
         validateMapping(genericReasonId, ids);
-        paymentFailureReasonDAO.batchInsertMapping(genericReasonId,ids);
+        paymentFailureReasonDAO.batchInsertMapping(genericReasonId, ids);
     }
 
     @Override
@@ -124,8 +124,8 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         paymentFailureReasonDAO.deleteReasonMappingByGenericIdAndReasonId(genericReasonId, reasonId);
     }
 
-    private void validateMapping(String genericReasonId, List <String> reasonIds){
-        for (String id: reasonIds){
+    private void validateMapping(String genericReasonId, List<String> reasonIds) {
+        for (String id : reasonIds) {
             checkGenericReasonAndReasonExistence(genericReasonId, id);
             checkIfMappingAlreadyExists(genericReasonId, id);
         }
@@ -145,8 +145,8 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         }
     }
 
-    private void checkIfCodeExists(String code, String processorId){
-        if (paymentFailureReasonDAO.isPaymentFailureReasonWithCodeExists(code,processorId)) {
+    private void checkIfCodeExists(String code, String processorId) {
+        if (paymentFailureReasonDAO.isPaymentFailureReasonWithCodeExists(code, processorId)) {
             throw new AlreadyExistException("Code: " + code + " already exists");
         }
     }
