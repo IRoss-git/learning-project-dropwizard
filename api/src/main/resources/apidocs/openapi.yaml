@@ -8,10 +8,6 @@ info:
 servers:
   - url: http://localhost:8080
 
-tags:
-  - name: person
-    description: person controller
-
 paths:
   /payment_processors:
     post:
@@ -113,7 +109,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: A payload for update Person
+        description: A payload for update payment processor
         content:
           application/json:
             schema:
@@ -242,7 +238,7 @@ paths:
         - Payment failure reason
       summary: Get failure reason by id in specified payment processor
       description: The endpoint retrieves an existing failure reason
-        associated with the specified department
+        associated with the specified generic reason
       operationId: getPaymentFailureReason
       parameters:
         - name: "payment_processor_id"
@@ -292,7 +288,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: A payload for update Person
+        description: A payload for update failure reason
         content:
           application/json:
             schema:
@@ -444,7 +440,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: A payload for update Person
+        description: A payload for update generic reason
         content:
           application/json:
             schema:
@@ -504,7 +500,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: A payload for set department for person
+        description: A payload for set failure reason with generic
         content:
           application/json:
             schema:

@@ -113,6 +113,7 @@ public class PaymentFailureReasonServiceImpl implements PaymentFailureReasonServ
         List<String> ids = refPaymentFailureReasonDTO.stream()
                 .map(RefPaymentFailureReasonDTO::getReasonId)
                 .collect(Collectors.toList());
+
         validateMapping(genericReasonId, ids);
         paymentFailureReasonDAO.batchInsertMapping(genericReasonId, ids);
     }
