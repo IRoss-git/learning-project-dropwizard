@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.learn.dropwizard.model.CreateUpdatePaymentProcessorDTO;
+
 import java.time.Duration;
 import java.util.Collections;
 
@@ -30,11 +31,13 @@ public class KafkaConsumer implements Runnable {
     @Value("${kafka.topic}")
     private String topic;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public void run() {
         try (Consumer<String, String> consumer = new org.apache.kafka.clients.consumer.KafkaConsumer<>(kafkaConsumerConfig.getProperties());) {
             consumer.subscribe(Collections.singletonList(topic));
-            ObjectMapper objectMapper = new ObjectMapper();
             while (true) {
                 ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(Long.parseLong(kafkaConsumerConfig.getProperties().getProperty(MAX_POLL_INTERVAL_MS_CONFIG))));
                 for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
@@ -47,8 +50,7 @@ public class KafkaConsumer implements Runnable {
                         LOGGER.warn("Incorrect message format message = {}", consumerRecord.value());
                     }
                 }
-//            consumer.commitSync();
-                consumer.commitAsync();
+                consumer.commitSync();
             }
         }
     }
