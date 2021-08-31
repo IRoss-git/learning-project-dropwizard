@@ -45,14 +45,15 @@ class PaymentProcessorServiceImplTest {
     @Test
     public void getTest() {
         PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
-        ReadPaymentProcessorDTO mockDto = mock(ReadPaymentProcessorDTO.class);
+//        ReadPaymentProcessorDTO mockDto = mock(ReadPaymentProcessorDTO.class);
+        ReadPaymentProcessorDTO readPaymentProcessorDTO = new ReadPaymentProcessorDTO();
 
         when(paymentProcessorDAO.getPaymentProcessor("123e4567-e89b-12d3-a456-426614174000")).thenReturn(paymentProcessor);
-        when(readPaymentProcessorMapper.convertToDto(paymentProcessor)).thenReturn(mockDto);
+        when(readPaymentProcessorMapper.convertToDto(paymentProcessor)).thenReturn(readPaymentProcessorDTO);
 
         ReadPaymentProcessorDTO exp = paymentProcessorService.getPaymentProcessor("123e4567-e89b-12d3-a456-426614174000");
 
-        assertThat(exp).isSameAs(mockDto);
+        assertThat(exp).isSameAs(readPaymentProcessorDTO);
     }
 
     @Test

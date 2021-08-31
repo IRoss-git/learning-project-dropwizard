@@ -7,9 +7,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
     ports:
-      - 5433:5432
-    networks:
-      - my_network
+      - "5433:5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
@@ -18,12 +16,10 @@ services:
   liquibase:
     image: liquibase/liquibase
     volumes:
-      - ../src/main/resources/changelog:/liquibase/changelog
+      - ../db/src/main/resources/changelog:/liquibase/changelog
     command: --changeLogFile=master.xml --url=jdbc:postgresql://postgres:5432/postgres?autoReconnect=true&useSSL=false --username=postgres --password=password update
     depends_on:
       - postgres
-    networks:
-      - my_network
   api:
     image: api:1.0-SNAPSHOT
     restart: always
@@ -37,16 +33,12 @@ services:
       - "8080:8080"
     depends_on:
       - kafka
-    networks:
-      - my_network
   zookeeper:
     image: 'wurstmeister/zookeeper:latest'
     ports:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
-    networks:
-      - my_network
   kafka:
     image: 'wurstmeister/kafka:latest'
     ports:
@@ -59,10 +51,3 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
-    networks:
-      - my_network
-
-networks:
-  my_network:
-    name: my_network
-    driver: bridge
