@@ -1,4 +1,4 @@
-package com.ilya.service.service;
+package com.ilya.service.service.impl;
 
 import com.ilya.db.dao.PaymentFailureReasonDAO;
 import com.ilya.db.domain.PaymentFailureReason;
@@ -7,6 +7,9 @@ import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreatePaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadPaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadPaymentProcessorMapper;
+import com.ilya.service.service.GenericPaymentFailureReasonService;
+import com.ilya.service.service.PaymentFailureReasonService;
+import com.ilya.service.service.PaymentProcessorService;
 import com.learn.dropwizard.model.RefPaymentFailureReasonDTO;
 import com.learn.dropwizard.model.CreateUpdatePaymentFailureReasonDTO;
 import com.learn.dropwizard.model.ReadPaymentFailureReasonDTO;

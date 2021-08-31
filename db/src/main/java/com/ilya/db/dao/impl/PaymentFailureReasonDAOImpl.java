@@ -1,5 +1,6 @@
-package com.ilya.db.dao;
+package com.ilya.db.dao.impl;
 
+import com.ilya.db.dao.PaymentFailureReasonDAO;
 import com.ilya.db.domain.PaymentFailureReason;
 import com.ilya.db.rowmapper.FailureReasonRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class PaymentFailureReasonDAOImpl implements PaymentFailureReasonDAO{
+public class PaymentFailureReasonDAOImpl implements PaymentFailureReasonDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

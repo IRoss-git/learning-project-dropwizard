@@ -1,5 +1,6 @@
-package com.ilya.db.dao;
+package com.ilya.db.dao.impl;
 
+import com.ilya.db.dao.GenericFailureReasonDAO;
 import com.ilya.db.domain.GenericPaymentFailureReason;
 import com.ilya.db.rowmapper.GenericFailureReasonRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;

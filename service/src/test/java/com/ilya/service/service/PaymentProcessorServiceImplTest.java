@@ -1,10 +1,11 @@
 package com.ilya.service.service;
 
-import com.ilya.db.dao.PaymentProcessorDAOImpl;
+import com.ilya.db.dao.impl.PaymentProcessorDAOImpl;
 import com.ilya.db.domain.PaymentProcessor;
 import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreatePaymentProcessorMapper;
 import com.ilya.service.modelmapper.ReadPaymentProcessorMapper;
+import com.ilya.service.service.impl.PaymentProcessorServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

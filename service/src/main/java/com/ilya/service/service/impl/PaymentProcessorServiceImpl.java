@@ -1,10 +1,11 @@
-package com.ilya.service.service;
+package com.ilya.service.service.impl;
 
 import com.ilya.db.dao.PaymentProcessorDAO;
 import com.ilya.db.domain.PaymentProcessor;
 import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreatePaymentProcessorMapper;
 import com.ilya.service.modelmapper.ReadPaymentProcessorMapper;
+import com.ilya.service.service.PaymentProcessorService;
 import com.learn.dropwizard.model.CreateUpdatePaymentProcessorDTO;
 import com.learn.dropwizard.model.ReadPaymentProcessorDTO;
 import org.springframework.beans.factory.annotation.Autowired;

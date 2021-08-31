@@ -1,10 +1,11 @@
-package com.ilya.service.service;
+package com.ilya.service.service.impl;
 
 import com.ilya.db.dao.GenericFailureReasonDAO;
 import com.ilya.db.domain.GenericPaymentFailureReason;
 import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreateGenericPaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadGenericPaymentFailureReasonMapper;
+import com.ilya.service.service.GenericPaymentFailureReasonService;
 import com.learn.dropwizard.model.CreateUpdateGenericPaymentFailureReasonDTO;
 import com.learn.dropwizard.model.ReadGenericPaymentFailureReasonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class GenericPaymentFailureReasonServiceImpl implements GenericPaymentFailureReasonService{
+public class GenericPaymentFailureReasonServiceImpl implements GenericPaymentFailureReasonService {
 
     @Autowired
     private GenericFailureReasonDAO genericFailureReasonDAO;

@@ -29,6 +29,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadPaymentProcessor'
+        409:
+          $ref: '#/components/responses/Conflict'
     get:
       tags:
         - paymentProcessor
@@ -92,6 +94,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         403:
           $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
         409:
           $ref: '#/components/responses/Conflict'
         default:

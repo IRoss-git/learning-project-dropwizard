@@ -1,10 +1,11 @@
 package com.ilya.service.service;
 
-import com.ilya.db.dao.GenericFailureReasonDAOImpl;
+import com.ilya.db.dao.impl.GenericFailureReasonDAOImpl;
 import com.ilya.db.domain.GenericPaymentFailureReason;
 import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreateGenericPaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadGenericPaymentFailureReasonMapper;
+import com.ilya.service.service.impl.GenericPaymentFailureReasonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

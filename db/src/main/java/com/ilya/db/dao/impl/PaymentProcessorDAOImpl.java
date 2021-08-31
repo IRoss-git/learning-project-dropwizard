@@ -1,5 +1,6 @@
-package com.ilya.db.dao;
+package com.ilya.db.dao.impl;
 
+import com.ilya.db.dao.PaymentProcessorDAO;
 import com.ilya.db.domain.PaymentProcessor;
 import com.ilya.db.rowmapper.PaymentProcessorRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
