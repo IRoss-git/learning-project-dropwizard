@@ -1,8 +1,7 @@
 package com.ilya.service.service;
 
-import com.ilya.db.dao.GenericFailureReasonDAO;
+import com.ilya.db.dao.GenericFailureReasonDAOImpl;
 import com.ilya.db.domain.GenericPaymentFailureReason;
-import com.ilya.db.domain.PaymentProcessor;
 import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreateGenericPaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadGenericPaymentFailureReasonMapper;
@@ -15,7 +14,6 @@ import com.learn.dropwizard.model.ReadGenericPaymentFailureReasonDTO;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.NotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +28,7 @@ import static org.mockito.Mockito.when;
 class GenericPaymentFailureReasonServiceImplTest {
 
     @Mock
-    private GenericFailureReasonDAO genericFailureReasonDAO;
+    private GenericFailureReasonDAOImpl genericFailureReasonDAO;
 
     @Mock
     private CreateGenericPaymentFailureReasonMapper createGenericPaymentFailureReasonMapper;

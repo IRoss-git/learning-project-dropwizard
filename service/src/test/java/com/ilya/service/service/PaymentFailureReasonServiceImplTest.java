@@ -1,13 +1,11 @@
 package com.ilya.service.service;
 
-import com.ilya.db.dao.PaymentFailureReasonDAO;
+import com.ilya.db.dao.PaymentFailureReasonDAOImpl;
 import com.ilya.db.domain.PaymentFailureReason;
-import com.ilya.db.domain.PaymentProcessor;
 import com.ilya.service.exception.AlreadyExistException;
 import com.ilya.service.modelmapper.CreatePaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadPaymentFailureReasonMapper;
 import com.ilya.service.modelmapper.ReadPaymentProcessorMapper;
-import liquibase.pro.packaged.T;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,7 +31,7 @@ import static org.mockito.Mockito.when;
 class PaymentFailureReasonServiceImplTest {
 
     @Mock
-    private PaymentFailureReasonDAO paymentFailureReasonDAO;
+    private PaymentFailureReasonDAOImpl paymentFailureReasonDAO;
 
     @Mock
     private CreatePaymentFailureReasonMapper createPaymentFailureReasonMapper;

@@ -1,9 +1,7 @@
 package com.ilya.service.service.vault;
 
 import com.bettercloud.vault.Vault;
-import com.bettercloud.vault.VaultConfig;
 import com.bettercloud.vault.VaultException;
-import com.bettercloud.vault.response.AuthResponse;
 import com.bettercloud.vault.response.LogicalResponse;
 import com.learn.dropwizard.model.CreateDataDTO;
 import com.learn.dropwizard.model.ReadDataDTO;
@@ -21,7 +19,7 @@ public class VaultService {
     @Autowired
     private Vault vault;
 
-    public static final String PATH = "kv/test";
+    private static final String PATH = "kv/test";
 
     public ReadDataDTO read(String key) {
         ReadDataDTO readDataDTO = new ReadDataDTO();

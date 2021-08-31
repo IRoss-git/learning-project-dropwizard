@@ -27,7 +27,7 @@ public class GenericFailureReasonMappingIT {
 
     private final PaymentFailureReasonMappingWithGenericApi paymentFailureReasonMappingWithGenericApi = new PaymentFailureReasonMappingWithGenericApi(ApiClientUtil.getApiClient());
 
-    private final GenericReasonApi genericReasonApi = new GenericReasonApi();
+    private final GenericReasonApi genericReasonApi = new GenericReasonApi(ApiClientUtil.getApiClient());
 
     private final PaymentFailureReasonApi paymentFailureReasonApi = new PaymentFailureReasonApi(ApiClientUtil.getApiClient());
 

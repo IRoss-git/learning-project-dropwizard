@@ -24,8 +24,8 @@ services:
       - postgres
     networks:
       - my_network
-  home-application:
-    image: dropwizard-test:1.0-SNAPSHOT
+  api:
+    image: api:1.0-SNAPSHOT
     restart: always
     environment:
         db.url: jdbc:postgresql://postgres:5432/postgres
