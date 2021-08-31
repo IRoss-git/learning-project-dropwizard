@@ -1,5 +1,7 @@
 package com.ilya.service.exception;
 
+import com.learn.dropwizard.model.ApiErrorDTO;
+
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -11,7 +13,7 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
     public Response toResponse(NotFoundException e) {
         return Response.status(Response.Status.NOT_FOUND)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(new BasicExceptionResponse(Response.Status.NOT_FOUND.getStatusCode(), e.getMessage()))
+                .entity(new ApiErrorDTO().responseCode(Response.Status.NOT_FOUND.getStatusCode()).errorMessage(e.getMessage()))
                 .build();
     }
 }
