@@ -55,9 +55,9 @@ class PaymentFailureReasonServiceImplTest {
 
     @Test
     void createPaymentFailureReason() {
-        CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO = mock(CreateUpdatePaymentFailureReasonDTO.class);
-        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = mock(ReadPaymentFailureReasonDTO.class);
-        PaymentFailureReason paymentFailureReason = mock(PaymentFailureReason.class);
+        CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO = new CreateUpdatePaymentFailureReasonDTO();
+        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = new ReadPaymentFailureReasonDTO();
+        PaymentFailureReason paymentFailureReason = new PaymentFailureReason();
 
         when(createPaymentFailureReasonMapper.convertToEntity(createUpdatePaymentFailureReasonDTO)).thenReturn(paymentFailureReason);
         when(readPaymentFailureReasonMapper.convertToDto(paymentFailureReason)).thenReturn(readPaymentFailureReasonDTO);
@@ -71,8 +71,8 @@ class PaymentFailureReasonServiceImplTest {
 
     @Test
     void getAllPaymentFailureReasonsByProcessor() {
-        List<PaymentFailureReason> paymentFailureReasons = mock(List.class);
-        List<ReadPaymentFailureReasonDTO> readPaymentFailureReasonDTOS = mock(List.class);
+        List<PaymentFailureReason> paymentFailureReasons = new ArrayList<>();
+        List<ReadPaymentFailureReasonDTO> readPaymentFailureReasonDTOS = new ArrayList<>();
 
         when(paymentFailureReasonDAO.getAllPaymentFailureReasonsByPaymentProcessor(TEST_UUID, 1L, 3L)).thenReturn(paymentFailureReasons);
         when(readPaymentFailureReasonMapper.convertListToDto(paymentFailureReasons)).thenReturn(readPaymentFailureReasonDTOS);
@@ -84,8 +84,8 @@ class PaymentFailureReasonServiceImplTest {
 
     @Test
     void getAllPaymentFailureReasonsByGenericReason() {
-        List<PaymentFailureReason> paymentFailureReasons = mock(List.class);
-        List<ReadPaymentFailureReasonDTO> readPaymentFailureReasonDTOS = mock(List.class);
+        List<PaymentFailureReason> paymentFailureReasons = new ArrayList<>();
+        List<ReadPaymentFailureReasonDTO> readPaymentFailureReasonDTOS = new ArrayList<>();
 
         when(paymentFailureReasonDAO.getAllPaymentFailureReasonsByGenericReason(TEST_UUID, 1L, 3L)).thenReturn(paymentFailureReasons);
         when(readPaymentFailureReasonMapper.convertListToDto(paymentFailureReasons)).thenReturn(readPaymentFailureReasonDTOS);
@@ -105,9 +105,9 @@ class PaymentFailureReasonServiceImplTest {
 
     @Test
     void updatePaymentFailureReason() {
-        CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO = mock(CreateUpdatePaymentFailureReasonDTO.class);
-        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = mock(ReadPaymentFailureReasonDTO.class);
-        PaymentFailureReason paymentFailureReason = mock(PaymentFailureReason.class);
+        CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO = new CreateUpdatePaymentFailureReasonDTO();
+        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = new ReadPaymentFailureReasonDTO();
+        PaymentFailureReason paymentFailureReason = new PaymentFailureReason();
 
         when(createPaymentFailureReasonMapper.convertToEntity(createUpdatePaymentFailureReasonDTO)).thenReturn(paymentFailureReason);
         when(readPaymentFailureReasonMapper.convertToDto(paymentFailureReason)).thenReturn(readPaymentFailureReasonDTO);
@@ -120,8 +120,8 @@ class PaymentFailureReasonServiceImplTest {
 
     @Test
     void getPaymentFailureReason() {
-        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = mock(ReadPaymentFailureReasonDTO.class);
-        PaymentFailureReason paymentFailureReason = mock(PaymentFailureReason.class);
+        ReadPaymentFailureReasonDTO readPaymentFailureReasonDTO = new ReadPaymentFailureReasonDTO();
+        PaymentFailureReason paymentFailureReason = new PaymentFailureReason();
 
         when(paymentFailureReasonDAO.getPaymentFailureReason(TEST_UUID)).thenReturn(paymentFailureReason);
         when(readPaymentFailureReasonMapper.convertToDto(paymentFailureReason)).thenReturn(readPaymentFailureReasonDTO);
@@ -171,7 +171,7 @@ class PaymentFailureReasonServiceImplTest {
     @Test
     void addAlreadyExistingMapping() {
         List <RefPaymentFailureReasonDTO> refPaymentFailureReasonDTOs = new ArrayList<>();
-        RefPaymentFailureReasonDTO refPaymentFailureReasonDTO = mock(RefPaymentFailureReasonDTO.class);
+        RefPaymentFailureReasonDTO refPaymentFailureReasonDTO = new RefPaymentFailureReasonDTO();
         refPaymentFailureReasonDTOs.add(refPaymentFailureReasonDTO);
 
         when(paymentFailureReasonDAO.isMappingExists(null, null)).thenReturn(true);
@@ -188,8 +188,8 @@ class PaymentFailureReasonServiceImplTest {
 
     @Test
     void createWithExistingCode() {
-        CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO = mock(CreateUpdatePaymentFailureReasonDTO.class);
-        PaymentFailureReason paymentFailureReason = mock(PaymentFailureReason.class);
+        CreateUpdatePaymentFailureReasonDTO createUpdatePaymentFailureReasonDTO = new CreateUpdatePaymentFailureReasonDTO();
+        PaymentFailureReason paymentFailureReason = new PaymentFailureReason();
 
         when(createPaymentFailureReasonMapper.convertToEntity(createUpdatePaymentFailureReasonDTO)).thenReturn(paymentFailureReason);
         when(paymentFailureReasonDAO.isPaymentFailureReasonWithCodeExists(null,TEST_UUID)).thenReturn(true);

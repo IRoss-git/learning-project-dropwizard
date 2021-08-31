@@ -21,6 +21,7 @@ import com.learn.dropwizard.model.CreateUpdatePaymentProcessorDTO;
 import javax.ws.rs.NotFoundException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -45,7 +46,6 @@ class PaymentProcessorServiceImplTest {
     @Test
     public void getTest() {
         PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
-//        ReadPaymentProcessorDTO mockDto = mock(ReadPaymentProcessorDTO.class);
         ReadPaymentProcessorDTO readPaymentProcessorDTO = new ReadPaymentProcessorDTO();
 
         when(paymentProcessorDAO.getPaymentProcessor("123e4567-e89b-12d3-a456-426614174000")).thenReturn(paymentProcessor);
@@ -58,9 +58,9 @@ class PaymentProcessorServiceImplTest {
 
     @Test
     public void createTest() {
-        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
-        ReadPaymentProcessorDTO readPaymentProcessorDTO = mock(ReadPaymentProcessorDTO.class);
-        PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
+        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = new CreateUpdatePaymentProcessorDTO();
+        ReadPaymentProcessorDTO readPaymentProcessorDTO = new ReadPaymentProcessorDTO();
+        PaymentProcessor paymentProcessor = new PaymentProcessor();
 
         when(readPaymentProcessorMapper.convertToDto(paymentProcessor)).thenReturn(readPaymentProcessorDTO);
         when(createPaymentProcessorMapper.convertToEntity(createUpdatePaymentProcessorDTO)).thenReturn(paymentProcessor);
@@ -73,7 +73,7 @@ class PaymentProcessorServiceImplTest {
 
     @Test
     public void getAllTest() {
-        PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
+        PaymentProcessor paymentProcessor = new PaymentProcessor();
         List<PaymentProcessor> personList = new ArrayList<>();
         personList.add(paymentProcessor);
 
@@ -86,6 +86,7 @@ class PaymentProcessorServiceImplTest {
         when(readPaymentProcessorMapper.convertListToDto(personList)).thenReturn(list);
 
         List<ReadPaymentProcessorDTO> expected = paymentProcessorService.getAllPaymentProcessors(1L, 3L);
+        assertEquals(expected.size(),1);
         assertThat(expected).isNotNull();
         assertThat(expected).isSameAs(list);
     }
@@ -101,9 +102,9 @@ class PaymentProcessorServiceImplTest {
 
     @Test
     public void updateTest() {
-        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
-        ReadPaymentProcessorDTO readPaymentProcessorDTO = mock(ReadPaymentProcessorDTO.class);
-        PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
+        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = new CreateUpdatePaymentProcessorDTO();
+        ReadPaymentProcessorDTO readPaymentProcessorDTO = new ReadPaymentProcessorDTO();
+        PaymentProcessor paymentProcessor = new PaymentProcessor();
         String uuid = String.valueOf(UUID.randomUUID());
 
         when(createPaymentProcessorMapper.convertToEntity(createUpdatePaymentProcessorDTO)).thenReturn(paymentProcessor);
@@ -117,8 +118,8 @@ class PaymentProcessorServiceImplTest {
 
     @Test
     public void createExistingKey(){
-        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
-        PaymentProcessor paymentProcessor = mock(PaymentProcessor.class);
+        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = new CreateUpdatePaymentProcessorDTO();
+        PaymentProcessor paymentProcessor = new PaymentProcessor();
 
         when(createPaymentProcessorMapper.convertToEntity(createUpdatePaymentProcessorDTO)).thenReturn(paymentProcessor);
         when(paymentProcessorDAO.isPaymentProcessorWithKeyExists(null)).thenReturn(true);
@@ -128,7 +129,7 @@ class PaymentProcessorServiceImplTest {
 
     @Test
     public void updateExistingKey(){
-        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = mock(CreateUpdatePaymentProcessorDTO.class);
+        CreateUpdatePaymentProcessorDTO createUpdatePaymentProcessorDTO = new CreateUpdatePaymentProcessorDTO();
         String uuid = String.valueOf(UUID.randomUUID());
 
         when(paymentProcessorDAO.isPaymentProcessorWithKeyExists(null)).thenReturn(true);

@@ -14,6 +14,7 @@ import com.learn.dropwizard.model.ReadGenericPaymentFailureReasonDTO;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.NotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,9 +44,9 @@ class GenericPaymentFailureReasonServiceImplTest {
 
     @Test
     void createGenericPaymentFailureReason() {
-        CreateUpdateGenericPaymentFailureReasonDTO createUpdateGenericPaymentFailureReasonDTO = mock(CreateUpdateGenericPaymentFailureReasonDTO.class);
-        ReadGenericPaymentFailureReasonDTO readGenericPaymentFailureReasonDTO = mock(ReadGenericPaymentFailureReasonDTO.class);
-        GenericPaymentFailureReason genericPaymentFailureReason = mock(GenericPaymentFailureReason.class);
+        CreateUpdateGenericPaymentFailureReasonDTO createUpdateGenericPaymentFailureReasonDTO =  new CreateUpdateGenericPaymentFailureReasonDTO();
+        ReadGenericPaymentFailureReasonDTO readGenericPaymentFailureReasonDTO = new ReadGenericPaymentFailureReasonDTO();
+        GenericPaymentFailureReason genericPaymentFailureReason = new GenericPaymentFailureReason();
 
         when(createGenericPaymentFailureReasonMapper.convertToEntity(createUpdateGenericPaymentFailureReasonDTO)).thenReturn(genericPaymentFailureReason);
         when(readGenericPaymentFailureReasonMapper.convertToDto(genericPaymentFailureReason)).thenReturn(readGenericPaymentFailureReasonDTO);
@@ -58,8 +59,8 @@ class GenericPaymentFailureReasonServiceImplTest {
 
     @Test
     void getAllGenericPaymentFailureReasons() {
-        List <GenericPaymentFailureReason> genericPaymentFailureReasons = mock(List.class);
-        List<ReadGenericPaymentFailureReasonDTO> genericPaymentFailureReasonDTOS = mock(List.class);
+        List <GenericPaymentFailureReason> genericPaymentFailureReasons = new ArrayList<>();
+        List<ReadGenericPaymentFailureReasonDTO> genericPaymentFailureReasonDTOS = new ArrayList<>();
 
         when(genericFailureReasonDAO.getAllGenericFailureReasons(1L, 3L)).thenReturn(genericPaymentFailureReasons);
         when(readGenericPaymentFailureReasonMapper.convertListToDto(genericPaymentFailureReasons)).thenReturn(genericPaymentFailureReasonDTOS);
@@ -81,9 +82,9 @@ class GenericPaymentFailureReasonServiceImplTest {
 
     @Test
     void updateGenericPaymentFailureReason() {
-        CreateUpdateGenericPaymentFailureReasonDTO createUpdateGenericPaymentFailureReasonDTO = mock(CreateUpdateGenericPaymentFailureReasonDTO.class);
-        ReadGenericPaymentFailureReasonDTO readGenericPaymentFailureReasonDTO = mock(ReadGenericPaymentFailureReasonDTO.class);
-        GenericPaymentFailureReason genericPaymentFailureReason = mock(GenericPaymentFailureReason.class);
+        CreateUpdateGenericPaymentFailureReasonDTO createUpdateGenericPaymentFailureReasonDTO =  new CreateUpdateGenericPaymentFailureReasonDTO();
+        ReadGenericPaymentFailureReasonDTO readGenericPaymentFailureReasonDTO = new ReadGenericPaymentFailureReasonDTO();
+        GenericPaymentFailureReason genericPaymentFailureReason = new GenericPaymentFailureReason();
         String uuid = String.valueOf(UUID.randomUUID());
 
         when(createGenericPaymentFailureReasonMapper.convertToEntity(createUpdateGenericPaymentFailureReasonDTO)).thenReturn(genericPaymentFailureReason);
@@ -97,8 +98,8 @@ class GenericPaymentFailureReasonServiceImplTest {
 
     @Test
     void getGenericPaymentFailureReason() {
-        ReadGenericPaymentFailureReasonDTO readGenericPaymentFailureReasonDTO = mock(ReadGenericPaymentFailureReasonDTO.class);
-        GenericPaymentFailureReason genericPaymentFailureReason = mock(GenericPaymentFailureReason.class);
+        ReadGenericPaymentFailureReasonDTO readGenericPaymentFailureReasonDTO = new ReadGenericPaymentFailureReasonDTO();
+        GenericPaymentFailureReason genericPaymentFailureReason = new GenericPaymentFailureReason();
 
 
         when(genericFailureReasonDAO.getGenericFailureReason(TEST_UUID)).thenReturn(genericPaymentFailureReason);
@@ -140,8 +141,8 @@ class GenericPaymentFailureReasonServiceImplTest {
 
     @Test
     void createExistingCode(){
-        CreateUpdateGenericPaymentFailureReasonDTO createUpdateGenericPaymentFailureReasonDTO = mock(CreateUpdateGenericPaymentFailureReasonDTO.class);
-        GenericPaymentFailureReason genericPaymentFailureReason = mock(GenericPaymentFailureReason.class);
+        CreateUpdateGenericPaymentFailureReasonDTO createUpdateGenericPaymentFailureReasonDTO =  new CreateUpdateGenericPaymentFailureReasonDTO();
+        GenericPaymentFailureReason genericPaymentFailureReason = new GenericPaymentFailureReason();
 
         when(createGenericPaymentFailureReasonMapper.convertToEntity(createUpdateGenericPaymentFailureReasonDTO)).thenReturn(genericPaymentFailureReason);
         when(genericFailureReasonDAO.isGenericFailureReasonWithCodeExists(null)).thenReturn(true);
