@@ -86,4 +86,4 @@
 ## Usage
 
 ### After successful run, you can open
-### `localhost:8080/pr/apidocs`
+### `localhost:8080/payment-error-processor/apidocs`

@@ -36,7 +36,31 @@
     <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
     <script>
-    window.onload = function() {
+        const UrlMutatorPlugin = (system) => ({
+            rootInjects: {
+                setScheme: (scheme) => {
+                    const jsonSpec = system.getState().toJSON().spec.json;
+                    const schemes = Array.isArray(scheme) ? scheme : [scheme];
+                    const newJsonSpec = Object.assign({}, jsonSpec, {schemes});
+
+                    return system.specActions.updateJsonSpec(newJsonSpec);
+                },
+                setHost: (host) => {
+                    const jsonSpec = system.getState().toJSON().spec.json;
+                    const newJsonSpec = Object.assign({}, jsonSpec, {host});
+
+                    return system.specActions.updateJsonSpec(newJsonSpec);
+                },
+                setBasePath: (basePath) => {
+                    const jsonSpec = system.getState().toJSON().spec.json;
+                    const newJsonSpec = Object.assign({}, jsonSpec, {basePath});
+
+                    return system.specActions.updateJsonSpec(newJsonSpec);
+                }
+            }
+        });
+
+        window.onload = function() {
       // Begin Swagger UI call region
       // End Swagger UI call region
 
@@ -46,12 +70,13 @@
         deepLinking: true,
         presets: [
           SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
+            Array.isArray(SwaggerUIStandalonePreset) ? SwaggerUIStandalonePreset : SwaggerUIStandalonePreset.default
         ],
         plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
+            UrlMutatorPlugin,
+            SwaggerUIBundle.plugins.DownloadUrl
         ],
-        layout: "StandaloneLayout"
+          layout: "StandaloneLayout"
       });
     };
   </script>

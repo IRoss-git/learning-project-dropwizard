@@ -1,5 +1,5 @@
 server:
-  applicationContextPath: /pr
+  applicationContextPath: /payment-error-processor
   applicationConnectors:
     - type: http
       port: 8080
